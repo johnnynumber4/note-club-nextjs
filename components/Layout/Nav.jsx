@@ -1,5 +1,5 @@
 import { Avatar } from '@/components/Avatar';
-import { Button, ButtonLink } from '@/components/Button';
+import { ButtonLink } from '@/components/Button';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { fetcher } from '@/lib/fetch';
 import { useCurrentUser } from '@/lib/user';
@@ -75,7 +75,7 @@ const UserMenu = ({ user, mutate }) => {
               <a className={styles.item}>Profile</a>
             </Link>
             <Link passHref href="/settings">
-              <a className={styles.item}>Settngs</a>
+              <a className={styles.item}>Settings</a>
             </Link>
             <div className={styles.item} style={{ cursor: 'auto' }}>
               <Container alignItems="center">
@@ -126,11 +126,11 @@ const Nav = () => {
                   </ButtonLink>
                 </Link>
                 <Spacer axis="horizontal" size={0.25} />
-                <Link passHref href="/sign-up">
+                {/* <Link passHref href="/sign-up">
                   <Button size="small" type="success">
                     Sign Up
                   </Button>
-                </Link>
+                </Link> */}
               </>
             )}
           </Container>

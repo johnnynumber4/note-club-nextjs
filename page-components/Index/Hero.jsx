@@ -6,7 +6,7 @@ import styles from './Hero.module.css';
 const Hero = () => {
   return (
     <Wrapper>
-      <div>
+      {/* <div>
         <h1 className={styles.title}>
           <span className={styles.nextjs}>Next.js</span>
           <span className={styles.mongodb}>MongoDB</span>
@@ -33,7 +33,7 @@ const Hero = () => {
           A Next.js and MongoDB web application, designed with simplicity for
           learning and real-world applicability in mind.
         </p>
-      </div>
+      </div> */}
     </Wrapper>
   );
 };

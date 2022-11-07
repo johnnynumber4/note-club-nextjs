@@ -36,7 +36,7 @@ handler.post(
     }
 
     const token = await createToken(db, {
-      creatorId: user._id,
+      author: user._id,
       type: 'passwordReset',
       expireAt: new Date(Date.now() + 1000 * 60 * 20),
     });
@@ -81,7 +81,7 @@ handler.put(
     }
     await UNSAFE_updateUserPassword(
       db,
-      deletedToken.creatorId,
+      deletedToken.author,
       req.body.password
     );
     res.status(204).end();

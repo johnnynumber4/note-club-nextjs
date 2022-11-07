@@ -39,7 +39,7 @@ handler.post(
 
     const post = await insertPost(db, {
       content: req.body.content,
-      creatorId: req.user._id,
+      author: req.user._id,
     });
 
     return res.json({ post });

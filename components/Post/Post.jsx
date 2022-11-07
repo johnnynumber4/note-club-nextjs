@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import styles from './Post.module.css';
 
+const { data, error, mutate } = useCurrentUser();
+
 const Post = ({ post, className }) => {
   const timestampTxt = useMemo(() => {
     const diff = Date.now() - new Date(post.createdAt).getTime();

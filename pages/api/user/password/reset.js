@@ -79,11 +79,7 @@ handler.put(
       res.status(403).end();
       return;
     }
-    await UNSAFE_updateUserPassword(
-      db,
-      deletedToken.author,
-      req.body.password
-    );
+    await UNSAFE_updateUserPassword(db, deletedToken.author, req.body.password);
     res.status(204).end();
   }
 );

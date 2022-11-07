@@ -1,5 +1,5 @@
 import { Avatar } from '@/components/Avatar';
-import { Button, ButtonLink } from '@/components/Button';
+import { ButtonLink } from '@/components/Button';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { fetcher } from '@/lib/fetch';
 import { useCurrentUser } from '@/lib/user';

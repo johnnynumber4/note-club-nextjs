@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Next.js MongoDB App</title>
+        <title>Note Club Reloaded: The Sequel</title>
         <meta
           key="viewport"
           name="viewport"
@@ -15,12 +15,12 @@ const Layout = ({ children }) => {
         />
         <meta
           name="description"
-          content="nextjs-mongodb-app is a continously developed app built with Next.JS and MongoDB. This project goes further and attempts to integrate top features as seen in real-life apps."
+          content="We like to listen to music and share our thoughts on the albums we select.  No matter how bad or good, they will live forever in this repo."
         />
         <meta property="og:title" content="Next.js + MongoDB App" />
         <meta
           property="og:description"
-          content="nextjs-mongodb-app is a continously developed app built with Next.JS and MongoDB. This project goes further and attempts to integrate top features as seen in real-life apps."
+          content="We like to listen to music and share our thoughts on the albums we select.  No matter how bad or good, they will live forever in this repo."
         />
         <meta
           property="og:image"

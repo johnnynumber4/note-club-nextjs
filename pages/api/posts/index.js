@@ -39,7 +39,8 @@ handler.post(
     const db = await getMongoDb();
 
     const post = await insertPost(db, {
-      content: req.body.content,
+      albumTitle: req.body.albumTitle,
+      albumArtist: req.body.albumArtist,
       author: req.user._id,
     });
 

@@ -51,10 +51,9 @@ export async function findPosts(db, before, by, limit = 10) {
 
 export async function insertPost(
   db,
-  { content, author, albumTitle, albumArtist }
+  { author, albumTitle, albumArtist }
 ) {
   const post = {
-    content,
     author,
     albumTitle,
     albumArtist,

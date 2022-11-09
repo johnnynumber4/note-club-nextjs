@@ -26,8 +26,9 @@ handler.post(
     type: 'object',
     properties: {
       albumTitle: ValidateProps.post.albumTitle,
+      albumTitle: ValidateProps.post.albumArtist,
     },
-    required: ['albumTitle'],
+    required: ['albumTitle', 'albumArtist'],
     additionalProperties: false,
   }),
   async (req, res) => {

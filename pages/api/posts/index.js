@@ -25,9 +25,9 @@ handler.post(
   validateBody({
     type: 'object',
     properties: {
-      content: ValidateProps.post.content,
+      albumTitle: ValidateProps.post.albumTitle,
     },
-    required: ['content'],
+    required: ['albumTitle'],
     additionalProperties: false,
   }),
   async (req, res) => {

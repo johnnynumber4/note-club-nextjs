@@ -7,7 +7,8 @@ export const ValidateProps = {
     bio: { type: 'string', minLength: 0, maxLength: 160 },
   },
   post: {
-    content: { type: 'string', minLength: 1, maxLength: 280 },
+    albumTitle: { type: 'string', minLength: 1, maxLength: 280 },
+    albumArtist: { type: 'string', minLength: 1, maxLength: 280 },
   },
   comment: {
     content: { type: 'string', minLength: 1, maxLength: 280 },

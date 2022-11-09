@@ -30,8 +30,8 @@ const Post = ({ post, className }) => {
         </a>
       </Link>
       <div className={styles.wrap}>
-        <p className={styles.content}>{post.content}</p>
-        {/* <p className={styles.content}>{post.albumArtist}</p> */}
+        <p className={styles.content}>{post.albumTitle}</p>
+        <p className={styles.content}>{post.albumArtist}</p>
       </div>
       <div className={styles.wrap}>
         <time dateTime={String(post.createdAt)} className={styles.timestamp}>

@@ -11,7 +11,7 @@ export default function UserPostPage({ post }) {
     <>
       <Head>
         <title>
-          {post.creator.name} ({post.creator.username}): {post.content}
+          {post.creator.name} ({post.creator.username}): {post.albumTitle}
         </title>
       </Head>
       <UserPost post={post} />

@@ -13,7 +13,8 @@ import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
 
 const PosterInner = ({ user }) => {
-  const contentRef = useRef();
+  const albumTitleRef = useRef();
+  const albumArtistRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
   const { mutate } = usePostPages();
@@ -26,10 +27,11 @@ const PosterInner = ({ user }) => {
         await fetcher('/api/posts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: contentRef.current.value }),
+          body: JSON.stringify({ albumTitle: albumTitleRef.current.value, albumArtist: albumArtistRef.current.value }),
         });
         toast.success('You have posted successfully');
-        contentRef.current.value = '';
+        albumTitleRef.current.value = '';
+        albumArtistRef.current.value = '';
         // refresh post lists
         mutate();
       } catch (e) {
@@ -46,10 +48,16 @@ const PosterInner = ({ user }) => {
       <Container className={styles.poster}>
         <Avatar size={40} username={user.username} url={user.profilePicture} />
         <Input
-          ref={contentRef}
+          ref={albumTitleRef}
           className={styles.input}
-          placeholder={`What should we listen to, ${user.name}?`}
-          ariaLabel={`What should we listen to, ${user.name}?`}
+          placeholder={`What album should we listen to, ${user.name}?`}
+          ariaLabel={`What album should we listen to, ${user.name}?`}
+        />
+        <Input
+          ref={albumArtistRef}
+          className={styles.input}
+          placeholder={`And who was that by, ${user.name}?`}
+          ariaLabel={`And who was that by, ${user.name}?`}
         />
         <Button type="success" loading={isLoading}>
           Post

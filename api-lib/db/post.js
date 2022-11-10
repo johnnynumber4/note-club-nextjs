@@ -51,12 +51,16 @@ export async function findPosts(db, before, by, limit = 10) {
 
 export async function insertPost(
   db,
-  { author, albumTitle, albumArtist }
+  { author, albumTitle, albumArtist, wikiDesc, yt, albumArt, theme }
 ) {
   const post = {
     author,
     albumTitle,
     albumArtist,
+    wikiDesc,
+    yt,
+    albumArt,
+    theme,
     createdAt: new Date(),
   };
   const { insertedId } = await db.collection('posts').insertOne(post);

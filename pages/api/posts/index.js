@@ -46,37 +46,44 @@ handler.post(
       albumTitle: req.body.albumTitle,
       albumArtist: req.body.albumArtist,
       theme: req.body.theme,
-    }
+    };
 
     const db = await getMongoDb();
 
     const ytResult = async (postDetails) => {
-      await ytMusic.searchAlbums(postDetails.albumTitle)
-        .then(async resultyt => {
-          const ytResultLink = (resultyt[0].albumId);
-          const ytAlbumArt = (resultyt[0].thumbnailUrl);
+      await ytMusic
+        .searchAlbums(postDetails.albumTitle)
+        .then(async (resultyt) => {
+          const ytResultLink = resultyt[0].albumId;
+          const ytAlbumArt = resultyt[0].thumbnailUrl;
           postDetails.yt = ytResultLink;
           postDetails.albumArt = ytAlbumArt;
-          wiki().find(postDetails.albumTitle + ' ' + postDetails.albumArtist + ' ' + '(album)')
-          .then(async page => {
-            await page.summary()
-            .then(async wikiDesc => {
-              postDetails.wikiDesc = wikiDesc;
-              // console.log(postDetails);
-              const post = await insertPost(db, {
-                albumTitle: postDetails.albumTitle,
-                albumArtist: postDetails.albumArtist,
-                wikiDesc: postDetails.wikiDesc,
-                yt: postDetails.yt,
-                albumArt: postDetails.albumArt,
-                theme: postDetails.theme,
-                author: req.user._id,
+          wiki()
+            .find(
+              postDetails.albumTitle +
+                ' ' +
+                postDetails.albumArtist +
+                ' ' +
+                '(album)'
+            )
+            .then(async (page) => {
+              await page.summary().then(async (wikiDesc) => {
+                postDetails.wikiDesc = wikiDesc;
+                // console.log(postDetails);
+                const post = await insertPost(db, {
+                  albumTitle: postDetails.albumTitle,
+                  albumArtist: postDetails.albumArtist,
+                  wikiDesc: postDetails.wikiDesc,
+                  yt: postDetails.yt,
+                  albumArt: postDetails.albumArt,
+                  theme: postDetails.theme,
+                  author: req.user._id,
+                });
+                return res.json({ post });
               });
-              return res.json({ post });
-          })
-        })
-      });
-    } 
+            });
+        });
+    };
     ytResult(postDetails);
     console.log(postDetails);
   }

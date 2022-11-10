@@ -28,7 +28,11 @@ const PosterInner = ({ user }) => {
         await fetcher('/api/posts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ albumTitle: albumTitleRef.current.value, albumArtist: albumArtistRef.current.value, theme: themeRef.current.value }),
+          body: JSON.stringify({
+            albumTitle: albumTitleRef.current.value,
+            albumArtist: albumArtistRef.current.value,
+            theme: themeRef.current.value,
+          }),
         });
         toast.success('You have posted successfully');
         albumTitleRef.current.value = '';

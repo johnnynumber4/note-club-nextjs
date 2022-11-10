@@ -4,6 +4,8 @@ import { auths, validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
 import nc from 'next-connect';
+import * as ytMusic from 'node-youtube-music';
+import wiki from 'wikijs';
 
 const handler = nc(ncOpts);
 
@@ -27,8 +29,12 @@ handler.post(
     properties: {
       albumTitle: ValidateProps.post.albumTitle,
       albumArtist: ValidateProps.post.albumArtist,
+      wikiDesc: ValidateProps.post.wikiDesc,
+      yt: ValidateProps.post.yt,
+      theme: ValidateProps.post.theme,
+      albumArt: ValidateProps.post.albumArt,
     },
-    required: ['albumTitle', 'albumArtist'],
+    required: ['albumTitle', 'albumArtist', 'theme'],
     additionalProperties: false,
   }),
   async (req, res) => {
@@ -36,15 +42,43 @@ handler.post(
       return res.status(401).end();
     }
 
-    const db = await getMongoDb();
-
-    const post = await insertPost(db, {
+    const postDetails = {
       albumTitle: req.body.albumTitle,
       albumArtist: req.body.albumArtist,
-      author: req.user._id,
-    });
+      theme: req.body.theme,
+    }
 
-    return res.json({ post });
+    const db = await getMongoDb();
+
+    const ytResult = async (postDetails) => {
+      await ytMusic.searchAlbums(postDetails.albumTitle)
+        .then(async resultyt => {
+          const ytResultLink = (resultyt[0].albumId);
+          const ytAlbumArt = (resultyt[0].thumbnailUrl);
+          postDetails.yt = ytResultLink;
+          postDetails.albumArt = ytAlbumArt;
+          wiki().find(postDetails.albumTitle + ' ' + postDetails.albumArtist + ' ' + '(album)')
+          .then(async page => {
+            await page.summary()
+            .then(async wikiDesc => {
+              postDetails.wikiDesc = wikiDesc;
+              // console.log(postDetails);
+              const post = await insertPost(db, {
+                albumTitle: postDetails.albumTitle,
+                albumArtist: postDetails.albumArtist,
+                wikiDesc: postDetails.wikiDesc,
+                yt: postDetails.yt,
+                albumArt: postDetails.albumArt,
+                theme: postDetails.theme,
+                author: req.user._id,
+              });
+              return res.json({ post });
+          })
+        })
+      });
+    } 
+    ytResult(postDetails);
+    console.log(postDetails);
   }
 );
 

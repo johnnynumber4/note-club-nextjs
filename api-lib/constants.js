@@ -9,6 +9,10 @@ export const ValidateProps = {
   post: {
     albumTitle: { type: 'string', minLength: 1, maxLength: 280 },
     albumArtist: { type: 'string', minLength: 1, maxLength: 280 },
+    wikiDesc: { type: 'string', minLength: 1 },
+    yt: { type: 'string', minLength: 1, maxLength: 280 },
+    theme: { type: 'string', minLength: 1, maxLength: 15 },
+    albumArt: { type: 'string', minLength: 1, maxLength: 280 },
   },
   comment: {
     content: { type: 'string', minLength: 1, maxLength: 280 },

@@ -32,6 +32,8 @@ const Post = ({ post, className }) => {
       <div className={styles.wrap}>
         <p className={styles.content}>{post.albumTitle}</p>
         <p className={styles.content}>{post.albumArtist}</p>
+        {/* {post.albumArt &&
+        <img src={post.albumArt} alt={`Album Art for ${post.albumTitle}`}/>} */}
       </div>
       <div className={styles.wrap}>
         <time dateTime={String(post.createdAt)} className={styles.timestamp}>

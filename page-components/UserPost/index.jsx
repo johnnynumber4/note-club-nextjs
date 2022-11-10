@@ -9,6 +9,7 @@ export const UserPost = ({ post }) => {
     <Wrapper>
       <Spacer size={2} axis="vertical" />
       <PostItem post={post} />
+      <p className={styles.content}>{post.wikiDesc}</p>
       <h3 className={styles.subtitle}>Comments</h3>
       <Commenter post={post} />
       <CommentList post={post} />

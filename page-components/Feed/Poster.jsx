@@ -15,6 +15,7 @@ import styles from './Poster.module.css';
 const PosterInner = ({ user }) => {
   const albumTitleRef = useRef();
   const albumArtistRef = useRef();
+  const themeRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
   const { mutate } = usePostPages();
@@ -27,11 +28,12 @@ const PosterInner = ({ user }) => {
         await fetcher('/api/posts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ albumTitle: albumTitleRef.current.value, albumArtist: albumArtistRef.current.value }),
+          body: JSON.stringify({ albumTitle: albumTitleRef.current.value, albumArtist: albumArtistRef.current.value, theme: themeRef.current.value }),
         });
         toast.success('You have posted successfully');
         albumTitleRef.current.value = '';
         albumArtistRef.current.value = '';
+        themeRef.current.value = '';
         // refresh post lists
         mutate();
       } catch (e) {
@@ -50,14 +52,20 @@ const PosterInner = ({ user }) => {
         <Input
           ref={albumTitleRef}
           className={styles.input}
-          placeholder={`What album should we listen to, ${user.name}?`}
-          ariaLabel={`What album should we listen to, ${user.name}?`}
+          placeholder={`What album should we listen to?`}
+          ariaLabel={`What album should we listen to?`}
         />
         <Input
           ref={albumArtistRef}
           className={styles.input}
-          placeholder={`And who was that by, ${user.name}?`}
-          ariaLabel={`And who was that by, ${user.name}?`}
+          placeholder={`And who was that by?`}
+          ariaLabel={`And who was that by?`}
+        />
+        <Input
+          ref={themeRef}
+          className={styles.input}
+          placeholder={`What's the theme?`}
+          ariaLabel={`What's the theme?`}
         />
         <Button type="success" loading={isLoading}>
           Post

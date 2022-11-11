@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import styles from './Post.module.css';
+import Image from 'next/image';
 
 const Post = ({ post, className }) => {
   const timestampTxt = useMemo(() => {
@@ -28,10 +29,16 @@ const Post = ({ post, className }) => {
         </Container>
       </Link>
       <div className={styles.wrap}>
-        <p className={styles.content}>{post.albumTitle}</p>
         <p className={styles.content}>{post.albumArtist}</p>
-        {/* {post.albumArt &&
-        <img src={post.albumArt} alt={`Album Art for ${post.albumTitle}`}/>} */}
+        <p className={styles.content}>{post.albumTitle}</p>
+        {post.albumArt && (
+          <Image
+            src={post.albumArt}
+            alt={`Album Art for ${post.albumTitle}`}
+            width="80"
+            height="80"
+          />
+        )}
       </div>
       <div className={styles.wrap}>
         <time dateTime={String(post.createdAt)} className={styles.timestamp}>

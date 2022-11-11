@@ -3,7 +3,7 @@ import { Post as PostItem } from '@/components/Post';
 import Commenter from './Commenter';
 import CommentList from './CommentList';
 import styles from './UserPost.module.css';
-import Image from 'next/Image';
+import Image from 'next/image';
 
 export const UserPost = ({ post }) => {
   return (

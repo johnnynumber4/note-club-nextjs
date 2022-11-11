@@ -71,11 +71,15 @@ const UserMenu = ({ user, mutate }) => {
       >
         {visible && (
           <div className={styles.menu}>
-            <Link passHref href={`/user/${user.username}`}>
-              <a className={styles.item}>Profile</a>
+            <Link
+              passHref
+              href={`/user/${user.username}`}
+              className={styles.item}
+            >
+              Profile
             </Link>
-            <Link passHref href="/settings">
-              <a className={styles.item}>Settings</a>
+            <Link passHref href="/settings" className={styles.item}>
+              Settings
             </Link>
             <div className={styles.item} style={{ cursor: 'auto' }}>
               <Container alignItems="center">
@@ -105,8 +109,8 @@ const Nav = () => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Link href="/">
-            <a className={styles.logo}>Note Club Reloaded: The Sequel</a>
+          <Link href="/" className={styles.logo}>
+            Note Club Reloaded: The Sequel
           </Link>
           <Container>
             {user ? (
@@ -115,7 +119,7 @@ const Nav = () => {
               </>
             ) : (
               <>
-                <Link passHref href="/login">
+                <Link passHref href="/login" legacyBehavior>
                   <ButtonLink
                     size="small"
                     type="success"

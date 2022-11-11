@@ -5,7 +5,6 @@ import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
 import YoutubeMusicApi from 'youtube-music-api';
 import nc from 'next-connect';
-import * as ytMusic from 'node-youtube-music';
 import wiki from 'wikijs';
 
 const handler = nc(ncOpts);

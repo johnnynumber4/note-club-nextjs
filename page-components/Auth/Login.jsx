@@ -83,7 +83,7 @@ const Login = () => {
             Log in
           </Button>
           <Spacer size={0.25} axis="vertical" />
-          <Link href="/forget-password" passHref>
+          <Link href="/forget-password" passHref legacyBehavior>
             <ButtonLink type="success" size="large" variant="ghost">
               Forget password
             </ButtonLink>

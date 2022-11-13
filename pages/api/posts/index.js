@@ -3,11 +3,12 @@ import { findPosts, insertPost } from '@/api-lib/db';
 import { auths, validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
+import YoutubeMusicApi from 'youtube-music-api';
 import nc from 'next-connect';
-import * as ytMusic from 'node-youtube-music';
 import wiki from 'wikijs';
 
 const handler = nc(ncOpts);
+const api = new YoutubeMusicApi();
 
 handler.get(async (req, res) => {
   const db = await getMongoDb();
@@ -51,36 +52,41 @@ handler.post(
     const db = await getMongoDb();
 
     const ytResult = async (postDetails) => {
-      await ytMusic
-        .searchAlbums(postDetails.albumTitle)
-        .then(async (resultyt) => {
-          const ytResultLink = resultyt[0].albumId;
-          const ytAlbumArt = resultyt[0].thumbnailUrl;
-          postDetails.yt = ytResultLink;
-          postDetails.albumArt = ytAlbumArt;
-          wiki()
-            .find(
-              postDetails.albumTitle +
-                ' ' +
-                postDetails.albumArtist +
-                ' ' +
-                '(album)'
-            )
-            .then(async (page) => {
-              await page.summary().then(async (wikiDesc) => {
-                postDetails.wikiDesc = wikiDesc;
-                // console.log(postDetails);
-                const post = await insertPost(db, {
-                  albumTitle: postDetails.albumTitle,
-                  albumArtist: postDetails.albumArtist,
-                  wikiDesc: postDetails.wikiDesc,
-                  yt: postDetails.yt,
-                  albumArt: postDetails.albumArt,
-                  theme: postDetails.theme,
-                  author: req.user._id,
+      api
+        .initalize() // Retrieves Innertube Config
+        .then(async () => {
+          await api
+            .search(postDetails.albumTitle, 'album')
+            .then(async (resultyt) => {
+              console.log(resultyt);
+              const ytResultLink = resultyt.content[0].playlistId;
+              const ytAlbumArt = resultyt.content[0].thumbnails[3].url;
+              postDetails.yt = ytResultLink;
+              postDetails.albumArt = ytAlbumArt;
+              wiki()
+                .find(
+                  postDetails.albumTitle +
+                    ' ' +
+                    postDetails.albumArtist +
+                    ' ' +
+                    '(album)'
+                )
+                .then(async (page) => {
+                  await page.summary().then(async (wikiDesc) => {
+                    postDetails.wikiDesc = wikiDesc;
+                    console.log(postDetails);
+                    const post = await insertPost(db, {
+                      albumTitle: postDetails.albumTitle,
+                      albumArtist: postDetails.albumArtist,
+                      wikiDesc: postDetails.wikiDesc,
+                      yt: postDetails.yt,
+                      albumArt: postDetails.albumArt,
+                      theme: postDetails.theme,
+                      author: req.user._id,
+                    });
+                    return res.json({ post });
+                  });
                 });
-                return res.json({ post });
-              });
             });
         });
     };

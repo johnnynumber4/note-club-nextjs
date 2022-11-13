@@ -1,7 +1,7 @@
 {
-  "name": "nextjs-mongodb-app",
+  "name": "note-club-nextjs",
   "version": "1.0.0",
-  "description": "Full fledged app made with Next.JS and MongoDB",
+  "description": "NoteClub built with Next.JS and MongoDB",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hoangvvo/nextjs-mongodb-app.git"
+    "url": "git"
   },
-  "author": "Hoang Vo (https://hoangvvo.com)",
+  "author": "Johnny Young",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hoangvvo/nextjs-mongodb-app/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/hoangvvo/nextjs-mongodb-app#readme",
+  "homepage": "",
   "dependencies": {
     "@lukeed/ms": "^2.0.0",
     "ajv": "^8.11.0",
@@ -47,7 +47,8 @@
     "swr": "^1.3.0",
     "validator": "^13.7.0",
     "wikijs": "^6.4.0",
-    "youtube-moosick": "^0.3.0-rc1"
+    "youtube-moosick": "^0.3.0-rc1",
+    "youtube-music-api": "^1.0.6"
   },
   "devDependencies": {
     "eslint": "8.17.0",

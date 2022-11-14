@@ -16,12 +16,7 @@ const UserPosts = ({ user }) => {
     : [];
 
   return (
-    <div
-      className={styles.root}
-      style={{
-        background: `url(${post.albumArt}) no-repeat center center;`,
-      }}
-    >
+    <div className={styles.root}>
       <Spacer axis="vertical" size={1} />
       <Wrapper>
         {posts.map((post) => (
@@ -33,7 +28,13 @@ const UserPosts = ({ user }) => {
               background: `url(${post.albumArt}) no-repeat center center;`,
             }}
           >
-            <Post className={styles.post} post={post} />
+            <Post
+              className={styles.post}
+              post={post}
+              style={{
+                background: `url(${post.albumArt}) no-repeat center center;`,
+              }}
+            />
           </Link>
         ))}
         <Container justifyContent="center">

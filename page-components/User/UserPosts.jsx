@@ -16,24 +16,25 @@ const UserPosts = ({ user }) => {
     : [];
 
   return (
-    <div className={styles.root}>
+    <div
+      className={styles.root}
+      style={{
+        background: `url(${post.albumArt}) no-repeat center center;`,
+      }}
+    >
       <Spacer axis="vertical" size={1} />
       <Wrapper>
         {posts.map((post) => (
-          <div
-            className={styles.root}
+          <Link
+            key={post._id}
+            href={`/user/${post.creator.username}/post/${post._id}`}
+            className={styles.wrap}
             style={{
               background: `url(${post.albumArt}) no-repeat center center;`,
             }}
           >
-            <Link
-              key={post._id}
-              href={`/user/${post.creator.username}/post/${post._id}`}
-              className={styles.wrap}
-            >
-              <Post className={styles.post} post={post} />
-            </Link>
-          </div>
+            <Post className={styles.post} post={post} />
+          </Link>
         ))}
         <Container justifyContent="center">
           {isReachingEnd ? (

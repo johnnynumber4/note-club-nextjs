@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import styles from './Description.module.css';
+import styles from './ListenLinks.module.css';
 import Image from 'next/image';
 
 const ListenLinks = ({ post, className }) => {

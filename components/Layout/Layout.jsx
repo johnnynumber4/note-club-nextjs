@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Note Club Reloaded: The Sequel</title>
+        <title>Note Club Reloaded</title>
         <meta
           key="viewport"
           name="viewport"

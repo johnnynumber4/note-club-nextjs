@@ -24,8 +24,17 @@ const UserPosts = ({ user }) => {
             key={post._id}
             href={`/user/${post.creator.username}/post/${post._id}`}
             className={styles.wrap}
+            style={{
+              background: `url(${post.albumArt}) no-repeat center center;`,
+            }}
           >
-            <Post className={styles.post} post={post} />
+            <Post
+              className={styles.post}
+              post={post}
+              style={{
+                background: `url(${post.albumArt}) no-repeat center center;`,
+              }}
+            />
           </Link>
         ))}
         <Container justifyContent="center">

@@ -1,3 +1,4 @@
+import { Description } from '@/components/Description';
 import { Spacer, Wrapper } from '@/components/Layout';
 import { Post as PostItem } from '@/components/Post';
 import Commenter from './Commenter';
@@ -10,9 +11,9 @@ export const UserPost = ({ post }) => {
     <Wrapper>
       <Spacer size={2} axis="vertical" />
       <PostItem post={post} />
+      <h3 className={styles.subtitle}>Listen Now:</h3>
       {post.yt && (
         <div>
-          <p>Listen Now:</p>
           <p>
             <a
               href={`https://music.youtube.com/playlist?list=${post.yt}`}
@@ -30,7 +31,8 @@ export const UserPost = ({ post }) => {
           </p>
         </div>
       )}
-      <p className={styles.content}>{post.wikiDesc}</p>
+      <h3 className={styles.subtitle}>About the Album:</h3>
+      <Description post={post} />
       <h3 className={styles.subtitle}>Comments</h3>
       <Commenter post={post} />
       <CommentList post={post} />

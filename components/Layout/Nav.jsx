@@ -71,12 +71,8 @@ const UserMenu = ({ user, mutate }) => {
       >
         {visible && (
           <div className={styles.menu}>
-            <Link
-              passHref
-              href={`/user/${user.username}`}
-              className={styles.item}
-            >
-              Profile
+            <Link passHref href={`/user/${user.username}`} legacyBehavior>
+              <a className={styles.item}>Profile</a>
             </Link>
             <Link passHref href="/settings" legacyBehavior>
               <a className={styles.item}>Settings</a>

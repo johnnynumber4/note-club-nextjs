@@ -78,8 +78,8 @@ const UserMenu = ({ user, mutate }) => {
             >
               Profile
             </Link>
-            <Link passHref href="/settings" className={styles.item}>
-              Settings
+            <Link passHref href="/settings" legacyBehavior>
+              <a className={styles.item}>Settings</a>
             </Link>
             <div className={styles.item} style={{ cursor: 'auto' }}>
               <Container alignItems="center">
@@ -109,8 +109,8 @@ const Nav = () => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Link href="/" className={styles.logo}>
-            Note Club Reloaded: The Sequel
+          <Link href="/" legacyBehavior>
+            <a className={styles.logo}>Note Club Reloaded: The Sequel</a>
           </Link>
           <Container>
             {user ? (
@@ -119,7 +119,7 @@ const Nav = () => {
               </>
             ) : (
               <>
-                <Link passHref href="/login" legacyBehavior>
+                <Link passHref href="/login">
                   <ButtonLink
                     size="small"
                     type="success"

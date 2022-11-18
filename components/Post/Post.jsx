@@ -31,6 +31,7 @@ const Post = ({ post, className }) => {
       <div className={styles.wrap}>
         <p className={styles.content}>{post.albumArtist}</p>
         <p className={styles.content}>{post.albumTitle}</p>
+        <p className={styles.pill}>{post.theme}</p>
         {post.albumArt && (
           <Image
             src={post.albumArt}

@@ -11,7 +11,7 @@ export const ValidateProps = {
     albumArtist: { type: 'string', minLength: 1, maxLength: 280 },
     wikiDesc: { type: 'string', minLength: 1 },
     yt: { type: 'string', minLength: 1, maxLength: 280 },
-    theme: { type: 'string', minLength: 1, maxLength: 15 },
+    theme: { type: 'string', minLength: 1, maxLength: 100 },
     albumArt: { type: 'string', minLength: 1, maxLength: 280 },
   },
   comment: {

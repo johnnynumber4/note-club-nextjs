@@ -1,7 +1,7 @@
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { Container, Wrapper } from '@/components/Layout';
+import { Container, Wrapper, Spacer } from '@/components/Layout';
 import { LoadingDots } from '@/components/LoadingDots';
 import { Text, TextLink } from '@/components/Text';
 import { fetcher } from '@/lib/fetch';
@@ -59,12 +59,14 @@ const PosterInner = ({ user }) => {
           placeholder={`What album should we listen to?`}
           ariaLabel={`What album should we listen to?`}
         />
+        <Spacer size={0.5} axis="vertical" />
         <Input
           ref={albumArtistRef}
           className={styles.input}
           placeholder={`And who was that by?`}
           ariaLabel={`And who was that by?`}
         />
+        <Spacer size={0.5} axis="vertical" />
         <Input
           ref={themeRef}
           className={styles.input}

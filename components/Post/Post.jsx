@@ -14,7 +14,10 @@ const Post = ({ post, className }) => {
     return `${format(diff, true)} ago`;
   }, [post.createdAt]);
   return (
-    <div className={clsx(styles.root, className)}>
+    <div
+      className={clsx(styles.root, className)}
+      style={{ backgroundImage: post.albumArt }}
+    >
       <Link href={`/user/${post.creator.username}`}>
         <Container className={styles.creator}>
           <Avatar

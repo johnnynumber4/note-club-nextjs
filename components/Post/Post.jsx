@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import styles from './Post.module.css';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 const Post = ({ post, className }) => {
   const timestampTxt = useMemo(() => {

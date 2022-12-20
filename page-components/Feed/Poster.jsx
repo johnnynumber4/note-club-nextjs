@@ -1,4 +1,4 @@
-import { Avatar } from '@/components/Avatar';
+// import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Container, Wrapper, Spacer } from '@/components/Layout';
@@ -52,7 +52,7 @@ const PosterInner = ({ user }) => {
   return (
     <form onSubmit={onSubmit}>
       <Container className={styles.poster}>
-        <Avatar size={40} username={user.username} url={user.profilePicture} />
+        {/* <Avatar size={40} username={user.username} url={user.profilePicture} /> */}
         <Input
           ref={albumTitleRef}
           className={styles.input}

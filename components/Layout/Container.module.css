@@ -4,6 +4,7 @@
   position: relative;
   min-width: 1px;
   max-width: 100%;
+  background: black;
 }
 
 .column {

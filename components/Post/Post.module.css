@@ -2,14 +2,15 @@
   position: relative;
   box-sizing: border-box;
   padding: 16px;
-  /* background: var(--background); */
+  background-size: cover !important;
   border: 1px solid var(--accents-2);
   border-radius: 5px;
   box-shadow: var(--shadow-smallest);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .root a {
@@ -65,6 +66,9 @@
 
 .wrap {
   margin-top: 16px;
+  background: black;
+  width: 25%;
+  text-align: center;
 }
 
 .content {

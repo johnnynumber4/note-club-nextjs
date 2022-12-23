@@ -66,6 +66,9 @@
 
 .wrap {
   margin-top: 16px;
+  background: black;
+  width: 25%;
+  text-align: center;
 }
 
 .content {

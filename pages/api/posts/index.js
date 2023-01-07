@@ -56,7 +56,10 @@ handler.post(
         .initalize() // Retrieves Innertube Config
         .then(async () => {
           await api
-            .search(postDetails.albumTitle, 'album')
+            .search(
+              postDetails.albumArtist + ' ' + postDetails.albumTitle,
+              'album'
+            )
             .then(async (resultyt) => {
               console.log(resultyt);
               const ytResultLink = resultyt.content[0].playlistId;

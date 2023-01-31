@@ -21,6 +21,19 @@ const ListenLinks = ({ post, className }) => {
                 height="80"
               />
             </a>
+            <a
+              href={`https://listen.tidal.com/search/albums?q=${post.yt}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ zIndex: 99 }}
+            >
+              <Image
+                src="/icons/Tidal_Music_Icon.png"
+                alt="Tidal Music Search"
+                width="80"
+                height="80"
+              />
+            </a>
           </p>
         </div>
       </div>

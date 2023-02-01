@@ -1,5 +1,9 @@
 import { ValidateProps } from '@/api-lib/constants';
-import { findPosts, insertPost, findPostById } from '@/api-lib/db';
+import { 
+  findPosts,
+  insertPost,
+  // findPostById
+} from '@/api-lib/db';
 import { auths, validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';

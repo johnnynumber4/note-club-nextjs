@@ -67,3 +67,7 @@ export async function insertPost(
   post._id = insertedId;
   return post;
 }
+
+// export async function updatePost() {
+  
+// }

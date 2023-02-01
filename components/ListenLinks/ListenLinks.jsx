@@ -22,7 +22,7 @@ const ListenLinks = ({ post, className }) => {
               />
             </a>
             <a
-              href={`https://listen.tidal.com/search/albums?q=${post.albumTitle}`}
+              href={`https://listen.tidal.com/search/albums?q=${post.albumArtist}${post.albumTitle}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{ zIndex: 99 }}

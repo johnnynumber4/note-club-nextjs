@@ -91,11 +91,11 @@ const Login = () => {
         </form>
       </div>
       <div className={styles.footer}>
-        {/* <Link href="/sign-up" passHref>
+        <Link href="/sign-up" passHref>
           <TextLink color="link" variant="highlight">
             Don&apos;t have an account? Sign Up
           </TextLink>
-        </Link> */}
+        </Link>
       </div>
     </Wrapper>
   );

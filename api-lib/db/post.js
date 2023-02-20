@@ -23,7 +23,7 @@ export async function findPostById(db, id) {
   return posts[0];
 }
 
-export async function findPosts(db, before, by, limit = 10) {
+export async function findPosts(db, before, by) {
   return db
     .collection('posts')
     .aggregate([
@@ -34,7 +34,7 @@ export async function findPosts(db, before, by, limit = 10) {
         },
       },
       { $sort: { _id: -1 } },
-      { $limit: limit },
+      // { $limit: limit },
       {
         $lookup: {
           from: 'users',
@@ -69,5 +69,5 @@ export async function insertPost(
 }
 
 // export async function updatePost() {
-  
+
 // }

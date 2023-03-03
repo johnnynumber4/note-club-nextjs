@@ -1,4 +1,3 @@
-import { ButtonLink } from '@/components/Button';
 import { Container, Spacer, Wrapper } from '@/components/Layout';
 import { Post } from '@/components/Post';
 import { useLastPost } from '@/lib/post';
@@ -15,18 +14,16 @@ const NowPlaying = () => {
     <div className={styles.root}>
       <Spacer axis="vertical" size={1} />
       <Wrapper>
-        {posts.map((post) => (
-          <Link
-            key={post._id}
-            href={`/user/${post.creator.username}/post/${post._id}`}
-            passHref
-            legacyBehavior
-          >
-            <div className={styles.wrap}>
-              <Post className={styles.post} post={post} />
-            </div>
-          </Link>
-        ))}
+        <Link
+          key={posts[0]._id}
+          href={`/user/${posts[0].creator.username}/post/${posts[0]._id}`}
+          passHref
+          legacyBehavior
+        >
+          <div className={styles.wrap}>
+            <Post className={styles.post} post={posts[0]} />
+          </div>
+        </Link>
         <Container justifyContent="center" className={styles.buttons}>
           <Container>
             <Link passHref href="/feed" legacyBehavior>
@@ -36,15 +33,6 @@ const NowPlaying = () => {
             </Link>
           </Container>
           <Spacer axis="horizontal" size={1} />
-          {/* <Container>
-            <ButtonLink
-              href="https://github.com/hoangvvo/nextjs-mongodb-app"
-              type="secondary"
-              className={styles.button}
-            >
-              GitHub
-            </ButtonLink>
-          </Container> */}
         </Container>
       </Wrapper>
     </div>

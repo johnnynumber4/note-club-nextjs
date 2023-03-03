@@ -2,7 +2,7 @@ import { Button } from '@/components/Button';
 import { Container, Spacer } from '@/components/Layout';
 import Wrapper from '@/components/Layout/Wrapper';
 import { Post } from '@/components/Post';
-import { Search } from '@/components/Search';
+// import { Search } from '@/components/Search';
 import { Text } from '@/components/Text';
 import { usePostPages } from '@/lib/post';
 import Link from 'next/link';
@@ -18,7 +18,7 @@ const PostList = () => {
     <div className={styles.root}>
       <Spacer axis="vertical" size={1} />
       <Wrapper style={{ display: 'inline' }}>
-        <Search posts={posts} />
+        {/* <Search posts={posts} /> */}
         {posts.map((post) => (
           <Link
             key={post._id}

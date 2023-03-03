@@ -1,4 +1,3 @@
-import { ButtonLink } from '@/components/Button';
 import { Container, Spacer, Wrapper } from '@/components/Layout';
 import { Post } from '@/components/Post';
 import { useLastPost } from '@/lib/post';

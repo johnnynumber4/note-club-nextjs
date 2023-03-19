@@ -1,10 +1,10 @@
 import { Wrapper } from '@/components/Layout';
-import { NowPlayingFeed } from '../Feed';
+import { Feed } from '../Feed';
 
 const Hero = () => {
   return (
     <Wrapper>
-      <NowPlayingFeed />
+      <Feed />
     </Wrapper>
   );
 };

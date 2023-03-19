@@ -106,7 +106,7 @@ const Nav = () => {
           justifyContent="space-between"
         >
           <Link href="/" legacyBehavior>
-            <a className={styles.logo}>Note Club Reloaded: The Sequel</a>
+            <a className={styles.logo}>Note Club</a>
           </Link>
           <Container>
             {user ? (

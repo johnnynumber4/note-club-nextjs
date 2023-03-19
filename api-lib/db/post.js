@@ -34,7 +34,6 @@ export async function findPosts(db, before, by) {
         },
       },
       { $sort: { _id: -1 } },
-      // { $limit: limit },
       {
         $lookup: {
           from: 'users',

@@ -25,6 +25,7 @@
     "@emotion/styled": "^11.10.5",
     "@lukeed/ms": "^2.0.0",
     "@mui/material": "^5.11.9",
+    "@mui/styles": "^5.11.13",
     "ajv": "^8.11.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.30.0",

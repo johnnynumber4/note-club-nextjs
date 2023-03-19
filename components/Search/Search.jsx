@@ -19,12 +19,11 @@ export default function SearchBar({ posts }) {
   }, []);
 
   return (
-    <Stack spacing={2} sx={{ width: 300 }}>
+    <Stack>
       {show ? (
         <Autocomplete
           id="album-search"
           options={posts.map((option) => option.albumTitle)}
-          // className={styles.input}
           sx={{ margin: '0 0 20px' }}
           renderOption={(option) => {
             const post = posts.filter(

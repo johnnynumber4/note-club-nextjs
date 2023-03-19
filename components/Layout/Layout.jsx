@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Note Club Reloaded</title>
+        <title>Note Club</title>
         <meta
           key="viewport"
           name="viewport"
@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
           name="description"
           content="We like to listen to music and share our thoughts on the albums we select.  No matter how bad or good, they will live forever in this repo."
         />
-        <meta property="og:title" content="Note Club: Club of Notes" />
+        <meta property="og:title" content="Note Club" />
         <meta
           property="og:description"
           content="We like to listen to music and share our thoughts on the albums we select.  No matter how bad or good, they will live forever in this repo."

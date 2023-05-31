@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     // paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(10),
+    paddingLeft: 'unset',
+    paddingRight: 'unset',
   },
   card: {
     height: '100%',
@@ -36,7 +38,7 @@ const PostList = () => {
       <Search posts={posts} />
       <Container className={classes.cardGrid}>
         <Wrapper style={{ display: 'inline' }}>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {posts.map((post) => (
               <Link
                 key={post._id}
@@ -45,7 +47,7 @@ const PostList = () => {
                 legacyBehavior
                 className={classes.linkBox}
               >
-                <Grid item xs={12} sm={6} md={6}>
+                <Grid item xs={12} sm={12} md={6} lg={6}>
                   <Post className={styles.post} post={post} />
                 </Grid>
               </Link>

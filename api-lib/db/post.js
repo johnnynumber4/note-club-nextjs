@@ -67,6 +67,27 @@ export async function insertPost(
   return post;
 }
 
-// export async function updatePost() {
-
+// export async function updatePost(
+//   db,
+//   { id, wikiDesc, yt, albumArt, theme }
+// ) {
+//   const post = {
+//     id,
+//     wikiDesc,
+//     yt,
+//     albumArt,
+//     theme,
+//   };
+//   const postId = await db.collection('posts').updateOne({"_id": ObjectId(`${id}`)},
+//     {
+//       $set:
+//       {
+//         wikiDesc,
+//         yt,
+//         albumArt,
+//         theme,
+//       }
+//     }
+//   );
+//   return post;
 // }

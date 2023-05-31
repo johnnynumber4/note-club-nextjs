@@ -5,31 +5,56 @@ import { Search } from '@/components/Search';
 import { usePostPages } from '@/lib/post';
 import Link from 'next/link';
 import styles from './PostList.module.css';
+import { Grid, Container } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  cardGrid: {
+    // paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(10),
+    paddingLeft: 'unset',
+    paddingRight: 'unset',
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  linkBox: {
+    zIndex: '10',
+  },
+}));
 
 const PostList = () => {
+  const classes = useStyles();
   const { data } = usePostPages();
   const posts = data
     ? data.reduce((acc, val) => [...acc, ...val.posts], [])
     : [];
 
   return (
-    <div className={styles.root}>
+    <div>
       <Spacer axis="vertical" size={1} />
-      <Wrapper style={{ display: 'inline' }}>
-        <Search posts={posts} />
-        {posts.map((post) => (
-          <Link
-            key={post._id}
-            href={`/user/${post.creator.username}/post/${post._id}`}
-            passHref
-            legacyBehavior
-          >
-            <div className={styles.wrap}>
-              <Post className={styles.post} post={post} />
-            </div>
-          </Link>
-        ))}
-      </Wrapper>
+      <Search posts={posts} />
+      <Container className={classes.cardGrid}>
+        <Wrapper style={{ display: 'inline' }}>
+          <Grid container spacing={2}>
+            {posts.map((post) => (
+              <Link
+                key={post._id}
+                href={`/user/${post.creator.username}/post/${post._id}`}
+                passHref
+                legacyBehavior
+                className={classes.linkBox}
+              >
+                <Grid item xs={12} sm={12} md={6} lg={6}>
+                  <Post className={styles.post} post={post} />
+                </Grid>
+              </Link>
+            ))}
+          </Grid>
+        </Wrapper>
+      </Container>
     </div>
   );
 };

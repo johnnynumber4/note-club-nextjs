@@ -1,6 +1,6 @@
 .root {
   background: var(--background);
-  padding: 32px;
+  padding: 5px;
   box-shadow: var(--shadow-smallest);
   border-radius: 8px;
   transition: ease 0.2s box-shadow;

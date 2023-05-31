@@ -1,49 +1,102 @@
-import { Avatar } from '@/components/Avatar';
+// import { Avatar } from '@/components/Avatar';
 import { Container } from '@/components/Layout';
 import { format } from '@lukeed/ms';
-import { Box } from '@mui/material';
-import clsx from 'clsx';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import styles from './Post.module.css';
-// import Image from 'next/image';
+import React from 'react';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+  Box,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-const Post = ({ post, className }) => {
+const useStyles = makeStyles((theme) => ({
+  cardGrid: {
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    color: 'unset',
+    backgroundColor: 'unset',
+    boxShadow: 'var(--shadow-smallest)',
+    borderRadius: '8px',
+    transition: 'ease 0.2s box-shadow',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+    textAlign: 'center',
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}));
+
+const Post = ({ post }) => {
+  const classes = useStyles();
   const timestampTxt = useMemo(() => {
     const diff = Date.now() - new Date(post.createdAt).getTime();
     if (diff < 1 * 60 * 1000) return 'Just now';
     return `${format(diff, true)} ago`;
   }, [post.createdAt]);
   return (
-    <Box
-      className={clsx(styles.root, className)}
-      style={{ backgroundImage: `url(${post.albumArt})` }}
-    >
-      <Box className={styles.contentBox}>
-        <Link href={`/user/${post.creator.username}`}>
-          <Container className={styles.creator}>
-            <Avatar
-              size={36}
-              url={post.creator.profilePicture}
-              username={post.creator.username}
-            />
-            <Container column className={styles.meta}>
-              <p className={styles.name}>{post.creator.name}</p>
-              <p className={styles.username}>{post.creator.username}</p>
-            </Container>
-          </Container>
-        </Link>
-        <div className={styles.wrap}>
-          <p className={styles.content}>{post.albumArtist}</p>
-          <p className={styles.content}>{post.albumTitle}</p>
-          <p className={styles.pill}>{post.theme}</p>
-        </div>
-        <div className={styles.wrap}>
-          <time dateTime={String(post.createdAt)} className={styles.timestamp}>
-            {timestampTxt}
-          </time>
-        </div>
-      </Box>
+    <Box>
+      <Card className={classes.card}>
+        <CardMedia
+          className={classes.cardMedia}
+          image={`${post.albumArt}`}
+          title={`${post.albumArt}`}
+        />
+        <CardContent className={classes.cardContent}>
+          <Typography gutterBottom variant="h5" component="h2">
+            {post.albumTitle}
+          </Typography>
+          <Typography>{post.albumArtist}</Typography>
+          <Grid item xs={12}>
+            <Typography style={{ color: 'lime' }}>{post.theme}</Typography>
+          </Grid>
+        </CardContent>
+        <CardActions>
+          <Grid item xs={8}>
+            <Link href={`/user/${post.creator.username}`}>
+              <Container>
+                {/* <Avatar
+                  size={36}
+                  url={post.creator.profilePicture}
+                  username={post.creator.username}
+                /> */}
+                <Container column className={styles.meta}>
+                  <Typography className={styles.name}>
+                    {post.creator.name}
+                  </Typography>
+                  <Typography className={styles.username}>
+                    {post.creator.username}
+                  </Typography>
+                </Container>
+              </Container>
+            </Link>
+          </Grid>
+          <Grid item xs={4}>
+            <time
+              dateTime={String(post.createdAt)}
+              className={styles.timestamp}
+            >
+              {timestampTxt}
+            </time>
+          </Grid>
+        </CardActions>
+      </Card>
     </Box>
   );
 };

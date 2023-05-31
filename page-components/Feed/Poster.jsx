@@ -1,5 +1,4 @@
 // import { Avatar } from '@/components/Avatar';
-import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Container, Wrapper, Spacer } from '@/components/Layout';
 import { LoadingDots } from '@/components/LoadingDots';
@@ -11,8 +10,32 @@ import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
+import {
+  // Card,
+  // CardActions,
+  // CardContent,
+  // CardMedia,
+  Grid,
+  // Typography,
+  // Box,
+  // TextField,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  Button,
+  FormControl,
+  // FormLabel
+} from '@mui/material';
+
+const useStyles = makeStyles((theme) => ({
+  // cardGrid: {
+  //   paddingTop: theme.spacing(8),
+  //   paddingBottom: theme.spacing(8)
+  // },
+}));
 
 const PosterInner = ({ user }) => {
+  const classes = useStyles();
   const albumTitleRef = useRef();
   const albumArtistRef = useRef();
   const themeRef = useRef();
@@ -53,29 +76,37 @@ const PosterInner = ({ user }) => {
     <form onSubmit={onSubmit}>
       <Container className={styles.poster}>
         {/* <Avatar size={40} username={user.username} url={user.profilePicture} /> */}
-        <Input
-          ref={albumTitleRef}
-          className={styles.input}
-          placeholder={`What album should we listen to?`}
-          ariaLabel={`What album should we listen to?`}
-        />
-        <Spacer size={0.5} axis="vertical" />
-        <Input
-          ref={albumArtistRef}
-          className={styles.input}
-          placeholder={`And who was that by?`}
-          ariaLabel={`And who was that by?`}
-        />
-        <Spacer size={0.5} axis="vertical" />
-        <Input
-          ref={themeRef}
-          className={styles.input}
-          placeholder={`What's the theme?`}
-          ariaLabel={`What's the theme?`}
-        />
-        <Button type="success" loading={isLoading}>
-          Post
-        </Button>
+        <FormControl sx={{ width: '100%' }}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={4}>
+              <Input
+                ref={albumTitleRef}
+                className={styles.input}
+                placeholder={`What album should we listen to?`}
+                ariaLabel={`What album should we listen to?`}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Input
+                ref={albumArtistRef}
+                className={styles.input}
+                placeholder={`And who was that by?`}
+                ariaLabel={`And who was that by?`}
+              />
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Input
+                ref={themeRef}
+                className={styles.input}
+                placeholder={`What's the theme?`}
+                ariaLabel={`What's the theme?`}
+              />
+            </Grid>
+          </Grid>
+          <Button type="success" loading={isLoading}>
+            Post
+          </Button>
+        </FormControl>
       </Container>
     </form>
   );

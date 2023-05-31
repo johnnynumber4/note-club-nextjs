@@ -1,22 +1,3 @@
-.root {
-  position: relative;
-  box-sizing: border-box;
-  padding: 16px;
-  background-size: cover !important;
-  border: 1px solid var(--accents-2);
-  border-radius: 5px;
-  box-shadow: var(--shadow-smallest);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.root a {
-  text-decoration: none;
-}
-
 .contentBox {
   background-color: black;
   width: 35%;

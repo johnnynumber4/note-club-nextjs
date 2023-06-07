@@ -5,8 +5,20 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from './Search.module.css';
+import { makeStyles } from '@material-ui/core/styles';
+import { LoadingDots } from '../LoadingDots';
+
+const useStyles = makeStyles(() => ({
+  autoRoot: {
+    margin: 'unset',
+  },
+  searchBar: {
+    margin: '20px',
+  },
+}));
 
 export default function SearchBar({ posts }) {
+  const classes = useStyles();
   const [show, setShow] = useState(true);
   useEffect(() => {
     Router.onRouteChangeStart = () => {
@@ -19,9 +31,10 @@ export default function SearchBar({ posts }) {
   }, []);
 
   return (
-    <Stack>
+    <Stack className={classes.searchBar}>
       {show ? (
         <Autocomplete
+          classes={{ root: classes.autoRoot }}
           id="album-search"
           options={posts.map((option) => option.albumTitle)}
           sx={{ margin: '0 0 20px' }}
@@ -57,7 +70,7 @@ export default function SearchBar({ posts }) {
           )}
         />
       ) : (
-        <></>
+        <LoadingDots />
       )}
     </Stack>
   );

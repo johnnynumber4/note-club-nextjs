@@ -19,8 +19,6 @@
 }
 
 .content {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
   height: 100%;
   width: 100%;
 }
@@ -29,6 +27,7 @@
   font-weight: 800;
   color: var(--foreground);
   text-decoration: none;
+  text-wrap: nowrap;
 }
 
 .user {

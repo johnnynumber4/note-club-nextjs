@@ -15,6 +15,9 @@ const useStyles = makeStyles(() => ({
   searchBar: {
     margin: '20px',
   },
+  inputRoot: {
+    color: 'var(--accents-7)',
+  },
 }));
 
 export default function SearchBar({ posts }) {
@@ -37,7 +40,6 @@ export default function SearchBar({ posts }) {
           classes={{ root: classes.autoRoot }}
           id="album-search"
           options={posts.map((option) => option.albumTitle)}
-          sx={{ margin: '0 0 20px' }}
           renderOption={(option) => {
             const post = posts.filter(
               (element) => element.albumTitle === option.key
@@ -65,6 +67,7 @@ export default function SearchBar({ posts }) {
                 ...params.InputProps,
                 type: 'search',
                 className: styles.input,
+                classes: { root: classes.inputRoot },
               }}
             />
           )}

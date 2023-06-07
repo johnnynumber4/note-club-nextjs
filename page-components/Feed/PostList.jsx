@@ -1,7 +1,6 @@
 import { Spacer } from '@/components/Layout';
 import Wrapper from '@/components/Layout/Wrapper';
 import { Post } from '@/components/Post';
-import { Search } from '@/components/Search';
 import { usePostPages } from '@/lib/post';
 import Link from 'next/link';
 import styles from './PostList.module.css';
@@ -10,7 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
-    // paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(10),
     paddingLeft: 'unset',
     paddingRight: 'unset',
@@ -19,6 +17,11 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    color: 'unset',
+    backgroundColor: 'unset',
+    boxShadow: 'var(--shadow-smallest)',
+    borderRadius: '8px',
+    transition: 'ease 0.2s box-shadow',
   },
   linkBox: {
     zIndex: '10',
@@ -35,7 +38,6 @@ const PostList = () => {
   return (
     <div>
       <Spacer axis="vertical" size={1} />
-      <Search posts={posts} />
       <Container className={classes.cardGrid}>
         <Wrapper style={{ display: 'inline' }}>
           <Grid container spacing={2}>

@@ -7,12 +7,12 @@ const ListenLinks = ({ post, className }) => {
     <div className={clsx(styles.root, className)}>
       <div className={styles.wrap}>
         <div>
-          <p>
+          <p style={{ textAlign: 'center' }}>
             <a
               href={`https://music.youtube.com/playlist?list=${post.yt}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ zIndex: 99 }}
+              style={{ zIndex: 99, margin: '0 20px 0 20px' }}
             >
               <Image
                 src="/icons/Youtube_Music_icon.png"
@@ -25,7 +25,7 @@ const ListenLinks = ({ post, className }) => {
               href={`https://listen.tidal.com/search/albums?q=${post.albumArtist}%20${post.albumTitle}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ zIndex: 99 }}
+              style={{ zIndex: 99, margin: '0 20px 0 20px' }}
             >
               <Image
                 src="/icons/Tidal_Music_Icon.png"

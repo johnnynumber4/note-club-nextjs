@@ -1,6 +1,6 @@
 // import { Avatar } from '@/components/Avatar';
 import { Input } from '@/components/Input';
-import { Container, Wrapper, Spacer } from '@/components/Layout';
+import { Container, Wrapper } from '@/components/Layout';
 import { LoadingDots } from '@/components/LoadingDots';
 import { Text, TextLink } from '@/components/Text';
 import { fetcher } from '@/lib/fetch';
@@ -10,32 +10,19 @@ import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
-import {
-  // Card,
-  // CardActions,
-  // CardContent,
-  // CardMedia,
-  Grid,
-  // Typography,
-  // Box,
-  // TextField,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+// import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
   FormControl,
   // FormLabel
 } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
-  // cardGrid: {
-  //   paddingTop: theme.spacing(8),
-  //   paddingBottom: theme.spacing(8)
-  // },
-}));
+// const useStyles = makeStyles(() => ({
+// }));
 
 const PosterInner = ({ user }) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const albumTitleRef = useRef();
   const albumArtistRef = useRef();
   const themeRef = useRef();

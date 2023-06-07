@@ -11,6 +11,8 @@ import Container from './Container';
 import styles from './Nav.module.css';
 import Spacer from './Spacer';
 import Wrapper from './Wrapper';
+import { Search } from '@/components/Search';
+import { usePostPages } from '@/lib/post';
 
 const UserMenu = ({ user, mutate }) => {
   const menuRef = useRef();
@@ -97,6 +99,11 @@ const UserMenu = ({ user, mutate }) => {
 const Nav = () => {
   const { data: { user } = {}, mutate } = useCurrentUser();
 
+  const { data } = usePostPages();
+  const posts = data
+    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
+    : [];
+
   return (
     <nav className={styles.nav}>
       <Wrapper className={styles.wrapper}>
@@ -108,6 +115,7 @@ const Nav = () => {
           <Link href="/" legacyBehavior>
             <a className={styles.logo}>Note Club</a>
           </Link>
+          <Search posts={posts} />
           <Container>
             {user ? (
               <>

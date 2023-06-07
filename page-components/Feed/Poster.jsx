@@ -11,15 +11,15 @@ import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
 import { Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
   FormControl,
   // FormLabel
 } from '@mui/material';
 
-const useStyles = makeStyles(() => ({
-}));
+// const useStyles = makeStyles(() => ({
+// }));
 
 const PosterInner = ({ user }) => {
   // const classes = useStyles();

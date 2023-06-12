@@ -1,4 +1,3 @@
-// import { Avatar } from '@/components/Avatar';
 import { Input } from '@/components/Input';
 import { Container, Wrapper } from '@/components/Layout';
 import { LoadingDots } from '@/components/LoadingDots';
@@ -12,16 +11,13 @@ import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
 import { Grid } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  FormControl,
-  // FormLabel
-} from '@mui/material';
+import { FormControl } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 // const useStyles = makeStyles(() => ({
 // }));
 
-const PosterInner = ({ user }) => {
+const PosterInner = () => {
   // const classes = useStyles();
   const albumTitleRef = useRef();
   const albumArtistRef = useRef();
@@ -90,9 +86,9 @@ const PosterInner = ({ user }) => {
               />
             </Grid>
           </Grid>
-          <Button type="success" loading={isLoading}>
+          <LoadingButton type="success" loading={isLoading}>
             Post
-          </Button>
+          </LoadingButton>
         </FormControl>
       </Container>
     </form>

@@ -67,6 +67,7 @@
   color: var(--foreground);
   margin: 0;
   line-height: 20px;
+  cursor: pointer;
 }
 
 .username {
@@ -75,6 +76,7 @@
   color: var(--secondary);
   margin: 0;
   line-height: 20px;
+  cursor: pointer;
 }
 
 .wrap {

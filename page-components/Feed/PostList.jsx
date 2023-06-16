@@ -2,7 +2,6 @@ import { Spacer } from '@/components/Layout';
 import Wrapper from '@/components/Layout/Wrapper';
 import { Post } from '@/components/Post';
 import { usePostPages } from '@/lib/post';
-import Link from 'next/link';
 import styles from './PostList.module.css';
 import { Grid, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -23,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '8px',
     transition: 'ease 0.2s box-shadow',
   },
+  post: {
+    cursor: 'pointer',
+  },
 }));
 
 const PostList = () => {
@@ -39,7 +41,15 @@ const PostList = () => {
         <Wrapper style={{ display: 'inline' }}>
           <Grid container spacing={2}>
             {posts.map((post) => (
-              <Grid item xs={12} sm={12} md={6} lg={6}>
+              <Grid
+                className={classes.post}
+                key={post._id}
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+              >
                 <Post className={styles.post} post={post} />
               </Grid>
             ))}

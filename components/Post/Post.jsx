@@ -79,11 +79,6 @@ const Post = ({ post }) => {
         <CardActions>
           <Grid item xs={8}>
             <Container>
-              {/* <Avatar
-                  size={36}
-                  url={post.creator.profilePicture}
-                  username={post.creator.username}
-                /> */}
               <Container column className={styles.meta}>
                 <Link href={`/user/${post.creator.username}`}>
                   <Typography className={styles.name}>

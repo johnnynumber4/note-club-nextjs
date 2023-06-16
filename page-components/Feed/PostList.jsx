@@ -23,9 +23,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '8px',
     transition: 'ease 0.2s box-shadow',
   },
-  linkBox: {
-    zIndex: '10',
-  },
 }));
 
 const PostList = () => {

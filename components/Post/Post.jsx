@@ -53,13 +53,12 @@ const Post = ({ post }) => {
   return (
     <Box>
       <Card className={classes.card}>
-        <Link
+        {/* <Link
           key={post._id}
           href={`/user/${post.creator.username}/post/${post._id}`}
           passHref
           legacyBehavior
-          className={classes.linkBox}
-        >
+        > */}
           <CardMedia
             className={classes.cardMedia}
             image={`${post.albumArt}`}
@@ -74,7 +73,7 @@ const Post = ({ post }) => {
               <Typography style={{ color: 'lime' }}>{post.theme}</Typography>
             </Grid>
           </CardContent>
-        </Link>
+        {/* </Link> */}
         <CardActions>
           <Grid item xs={8}>
             <Link href={`/user/${post.creator.username}`}>

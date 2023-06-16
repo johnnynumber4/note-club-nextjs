@@ -42,17 +42,9 @@ const PostList = () => {
         <Wrapper style={{ display: 'inline' }}>
           <Grid container spacing={2}>
             {posts.map((post) => (
-              <Link
-                key={post._id}
-                href={`/user/${post.creator.username}/post/${post._id}`}
-                passHref
-                legacyBehavior
-                className={classes.linkBox}
-              >
-                <Grid item xs={12} sm={12} md={6} lg={6}>
-                  <Post className={styles.post} post={post} />
-                </Grid>
-              </Link>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <Post className={styles.post} post={post} />
+              </Grid>
             ))}
           </Grid>
         </Wrapper>

@@ -16,7 +16,6 @@
   display: inline-flex;
   border-radius: 5px;
   padding: 0px 6px;
-  background: var(--background);
   color: var(--accents-7);
   height: 40px;
   transition: border-color 0.15s ease;

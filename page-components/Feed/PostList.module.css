@@ -9,6 +9,10 @@
   cursor: pointer;
 }
 
+.post {
+  cursor: pointer;
+}
+
 .post:hover {
   background: var(--accents-1);
   transition: ease 0.15s background;

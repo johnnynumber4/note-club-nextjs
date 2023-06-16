@@ -53,39 +53,40 @@ const Post = ({ post }) => {
   return (
     <Box>
       <Card className={classes.card}>
-        <CardMedia
-          className={classes.cardMedia}
-          image={`${post.albumArt}`}
-          title={`${post.albumArt}`}
-        />
-        <CardContent className={classes.cardContent}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {post.albumTitle}
-          </Typography>
-          <Typography>{post.albumArtist}</Typography>
-          <Grid item xs={12}>
-            <Typography style={{ color: 'lime' }}>{post.theme}</Typography>
-          </Grid>
-        </CardContent>
+        <Link
+          key={post._id}
+          href={`/user/${post.creator.username}/post/${post._id}`}
+          passHref
+          legacyBehavior
+        >
+          <Box>
+            <CardMedia
+              className={classes.cardMedia}
+              image={`${post.albumArt}`}
+              title={`${post.albumArt}`}
+            />
+            <CardContent className={classes.cardContent}>
+              <Typography gutterBottom variant="h5" component="h2">
+                {post.albumTitle}
+              </Typography>
+              <Typography>{post.albumArtist}</Typography>
+              <Grid item xs={12}>
+                <Typography style={{ color: 'lime' }}>{post.theme}</Typography>
+              </Grid>
+            </CardContent>
+          </Box>
+        </Link>
         <CardActions>
           <Grid item xs={8}>
-            <Link href={`/user/${post.creator.username}`}>
-              <Container>
-                {/* <Avatar
-                  size={36}
-                  url={post.creator.profilePicture}
-                  username={post.creator.username}
-                /> */}
-                <Container column className={styles.meta}>
+            <Container>
+              <Container column className={styles.meta}>
+                <Link href={`/user/${post.creator.username}`}>
                   <Typography className={styles.name}>
-                    {post.creator.name}
-                  </Typography>
-                  <Typography className={styles.username}>
                     {post.creator.username}
                   </Typography>
-                </Container>
+                </Link>
               </Container>
-            </Link>
+            </Container>
           </Grid>
           <Grid item xs={4}>
             <time

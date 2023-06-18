@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Settings.module.css';
+import { Box } from '@material-ui/core';
 
 const EmailVerify = ({ user }) => {
   const [status, setStatus] = useState();
@@ -214,6 +215,7 @@ export const Settings = () => {
           <Auth user={data.user} />
         </>
       ) : null}
+      <Box style={{ marginBottom: '95px' }}></Box>
     </Wrapper>
   );
 };

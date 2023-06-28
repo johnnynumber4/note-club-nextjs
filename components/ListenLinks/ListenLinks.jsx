@@ -8,6 +8,14 @@ const ListenLinks = ({ post, className }) => {
       <div className={styles.wrap}>
         <div>
           <p style={{ textAlign: 'center' }}>
+            <iframe
+              width="100%"
+              src={`https://www.youtube.com/embed/videoseries?list=${post.yt}`}
+              title="YT album"
+              frameBorder="0"
+              allow="autoplay; clipboard-write; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
             <a
               href={`https://music.youtube.com/playlist?list=${post.yt}`}
               target="_blank"

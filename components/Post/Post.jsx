@@ -13,7 +13,6 @@ import {
   CardHeader,
   CardMedia,
   Divider,
-  Grid,
   IconButton,
   MoreVertIcon,
   Typography,
@@ -28,13 +27,9 @@ const useStyles = makeStyles((theme) => ({
   newcard: {
     maxWidth: 300,
     margin: 'auto',
-    transition: '0.3s',
-    boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
     '&:hover': {
       boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
     },
-  },
-  card: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -50,6 +45,13 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     flexGrow: 1,
     textAlign: 'center',
+    color: 'var(--accents-6)',
+    fontWeight: '500',
+    fontSize: '0.875rem',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    '-webkit-line-clamp': '2',
+    '-webkit-box-orient': 'vertical',
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -70,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   subheading: {
     lineHeight: 1.8,
+    color: 'var(--accents-5)',
   },
   avatar: {
     display: 'inline-block',
@@ -113,17 +116,22 @@ const Post = ({ post }) => {
           >
             {post.albumArtist}
           </Typography>
+          <Typography
+            className={'MuiTypography--subheading'}
+            variant={'caption'}
+          >
+            {post.theme}
+          </Typography>
+          <Divider className={classes.divider} dark />
+          <Avatar className={classes.avatar} src={post.creator.avatar} />
           <Link href={`/user/${post.creator.username}`}>
             <Typography
               className={'MuiTypography--subheading'}
               variant={'caption'}
             >
-              {/* {post.creator.username} */}
               {post.theme}
             </Typography>
           </Link>
-          <Divider className={classes.divider} dark />
-          <Avatar className={classes.avatar} src={post.creator.avatar} />
         </CardContent>
       </Card>
     </Box>

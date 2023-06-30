@@ -3,15 +3,11 @@ import Wrapper from '@/components/Layout/Wrapper';
 import { Post } from '@/components/Post';
 import { usePostPages } from '@/lib/post';
 import styles from './PostList.module.css';
-import { Grid, Container } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Masonry from 'react-masonry-component';
 
-const useStyles = makeStyles((theme) => ({
-  cardGrid: {
-    paddingBottom: theme.spacing(10),
-    paddingLeft: 'unset',
-    paddingRight: 'unset',
-  },
+const useStyles = makeStyles(() => ({
   card: {
     height: '100%',
     display: 'flex',
@@ -24,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   post: {
     cursor: 'pointer',
+    width: '100%',
   },
 }));
 
@@ -37,25 +34,28 @@ const PostList = () => {
   return (
     <div>
       <Spacer axis="vertical" size={1} />
-      <Container className={classes.cardGrid}>
-        <Wrapper style={{ display: 'inline' }}>
-          <Grid container spacing={2}>
-            {posts.map((post) => (
-              <Grid
-                className={classes.post}
-                key={post._id}
-                item
-                xs={12}
-                sm={12}
-                md={6}
-                lg={6}
-              >
-                <Post className={styles.post} post={post} />
-              </Grid>
-            ))}
-          </Grid>
-        </Wrapper>
-      </Container>
+      <Wrapper style={{ display: 'inline' }}>
+        <Grid
+          container
+          sx={{ minWidth: '33%' }}
+          spacing={2}
+          component={Masonry}
+        >
+          {posts.map((post) => (
+            <Grid
+              className={classes.post}
+              key={post._id}
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={4}
+            >
+              <Post className={styles.post} post={post} />
+            </Grid>
+          ))}
+        </Grid>
+      </Wrapper>
     </div>
   );
 };

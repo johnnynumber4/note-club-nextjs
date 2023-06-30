@@ -6,6 +6,9 @@ import styles from './PostList.module.css';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Masonry from 'react-masonry-component';
+import { useEffect, useState } from 'react';
+import Router from 'next/router';
+import { LoadingDots } from '../../components/LoadingDots';
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -30,32 +33,46 @@ const PostList = () => {
   const posts = data
     ? data.reduce((acc, val) => [...acc, ...val.posts], [])
     : [];
+  const [showList, setShowList] = useState(true);
+  useEffect(() => {
+    Router.onRouteChangeStart = () => {
+      setShowList(false);
+    };
+
+    Router.onRouteChangeComplete = () => {
+      setShowList(true);
+    };
+  }, []);
 
   return (
     <div>
       <Spacer axis="vertical" size={1} />
-      <Wrapper style={{ display: 'inline' }}>
-        <Grid
-          container
-          sx={{ minWidth: '33%' }}
-          spacing={2}
-          component={Masonry}
-        >
-          {posts.map((post) => (
-            <Grid
-              className={classes.post}
-              key={post._id}
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={4}
-            >
-              <Post className={styles.post} post={post} />
-            </Grid>
-          ))}
-        </Grid>
-      </Wrapper>
+      {showList ? (
+        <Wrapper style={{ display: 'inline' }}>
+          <Grid
+            container
+            sx={{ minWidth: '33%' }}
+            spacing={2}
+            component={Masonry}
+          >
+            {posts.map((post) => (
+              <Grid
+                className={classes.post}
+                key={post._id}
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={4}
+              >
+                <Post className={styles.post} post={post} />
+              </Grid>
+            ))}
+          </Grid>
+        </Wrapper>
+      ) : (
+        <LoadingDots />
+      )}
     </div>
   );
 };

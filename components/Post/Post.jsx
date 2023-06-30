@@ -1,19 +1,21 @@
-// import { Avatar } from '@/components/Avatar';
-import { Container } from '@/components/Layout';
 import { format } from '@lukeed/ms';
 import Link from 'next/link';
 import { useMemo } from 'react';
-import styles from './Post.module.css';
 import React from 'react';
 import {
+  Avatar,
+  // Badge,
   Card,
   CardActions,
   CardContent,
+  CardHeader,
   CardMedia,
-  Grid,
+  Divider,
+  // IconButton,
   Typography,
   Box,
 } from '@material-ui/core';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(8),
   },
   card: {
+    width: '100%',
+    margin: 'auto',
+    '&:hover': {
+      boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
+    },
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -36,10 +43,53 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     flexGrow: 1,
     textAlign: 'center',
+    color: 'var(--accents-6)',
+    fontWeight: '500',
+    fontSize: '0.875rem',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    '-webkit-line-clamp': '2',
+    '-webkit-box-orient': 'vertical',
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
+  },
+  media: {
+    paddingTop: '56.25%',
+  },
+  pill: {
+    border: 'none',
+    color: 'var(--pill-accent)',
+  },
+  content: {
+    textAlign: 'left',
+    padding: theme.spacing.unit * 3,
+  },
+  divider: {
+    margin: `${theme.spacing.unit * 3}px 0`,
+    color: 'var(--accents-5)',
+  },
+  heading: {
+    fontWeight: 'bold',
+  },
+  subheading: {
+    lineHeight: 1.8,
+    color: 'var(--accents-5)',
+  },
+  avatar: {
+    display: 'inline-block',
+    border: '2px solid white',
+    '&:not(:first-of-type)': {
+      marginLeft: -theme.spacing.unit,
+    },
+  },
+  timestamp: {
+    fontSize: '0.875rem',
+    fontWeight: '400',
+    lineHeight: '1.25rem',
+    margin: '0',
+    color: 'var(--accents-5)',
   },
 }));
 
@@ -60,42 +110,48 @@ const Post = ({ post }) => {
           legacyBehavior
         >
           <Box>
-            <CardMedia
-              className={classes.cardMedia}
-              image={`${post.albumArt}`}
-              title={`${post.albumArt}`}
+            <CardHeader
+              // action={
+              //   <div>
+              //     <Badge badgeContent={'2'} color="secondary">
+              //       {' '}
+              //     </Badge>
+              //     <IconButton aria-label="settings">
+              //       <MoreVertIcon />
+              //     </IconButton>
+              //   </div>
+              // }
+              title={post.albumTitle}
+              subheader={timestampTxt}
+              subheaderTypographyProps={{ color: 'var(--accents-5)' }}
             />
-            <CardContent className={classes.cardContent}>
-              <Typography gutterBottom variant="h5" component="h2">
-                {post.albumTitle}
+            <CardMedia className={classes.media} image={post.albumArt} />
+            <CardContent className={classes.content}>
+              <Typography
+                className={'MuiTypography--heading'}
+                variant={'h6'}
+                gutterBottom
+              >
+                {post.albumArtist}
               </Typography>
-              <Typography>{post.albumArtist}</Typography>
-              <Grid item xs={12}>
-                <Typography style={{ color: 'lime' }}>{post.theme}</Typography>
-              </Grid>
+              <Typography className={classes.pill} variant={'caption'}>
+                {post.theme}
+              </Typography>
+              <Divider className={classes.divider} />
             </CardContent>
           </Box>
         </Link>
         <CardActions>
-          <Grid item xs={8}>
-            <Container>
-              <Container column className={styles.meta}>
-                <Link href={`/user/${post.creator.username}`}>
-                  <Typography className={styles.name}>
-                    {post.creator.username}
-                  </Typography>
-                </Link>
-              </Container>
-            </Container>
-          </Grid>
-          <Grid item xs={4}>
-            <time
-              dateTime={String(post.createdAt)}
-              className={styles.timestamp}
+          {/* {' '} */}
+          <Avatar className={classes.avatar} src={post.creator.avatar} />
+          <Link href={`/user/${post.creator.username}`}>
+            <Typography
+              className={'MuiTypography--subheading'}
+              variant={'caption'}
             >
-              {timestampTxt}
-            </time>
-          </Grid>
+              {post.creator.username}
+            </Typography>
+          </Link>
         </CardActions>
       </Card>
     </Box>

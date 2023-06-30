@@ -64,6 +64,7 @@ const PostList = () => {
                 sm={6}
                 md={4}
                 lg={4}
+                xl={3}
               >
                 <Post className={styles.post} post={post} />
               </Grid>

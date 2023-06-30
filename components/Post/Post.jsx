@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { makeStyles } from '@material-ui/core/styles';
+import Image from 'next/image';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -84,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: -theme.spacing.unit,
     },
   },
+  cardRoot: {
+    justifyContent: 'space-between',
+  },
   timestamp: {
     fontSize: '0.875rem',
     fontWeight: '400',
@@ -93,8 +97,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = ({ post }) => {
+const Post = ({ post, user }) => {
   const classes = useStyles();
+  const profilePic = user ? user.profilePicture : null;
   const timestampTxt = useMemo(() => {
     const diff = Date.now() - new Date(post.createdAt).getTime();
     if (diff < 1 * 60 * 1000) return 'Just now';
@@ -141,9 +146,8 @@ const Post = ({ post }) => {
             </CardContent>
           </Box>
         </Link>
-        <CardActions>
-          {/* {' '} */}
-          <Avatar className={classes.avatar} src={post.creator.avatar} />
+        <CardActions classes={{ root: classes.cardRoot }}>
+          {profilePic && <Avatar className={classes.avatar} src={profilePic} />}
           <Link href={`/user/${post.creator.username}`}>
             <Typography
               className={'MuiTypography--subheading'}
@@ -152,6 +156,32 @@ const Post = ({ post }) => {
               {post.creator.username}
             </Typography>
           </Link>
+          <a
+            href={`https://music.youtube.com/playlist?list=${post.yt}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textAlign: 'right' }}
+          >
+            <Image
+              src="/icons/Youtube_Music_icon.png"
+              alt="YouTube Music Search"
+              width="30vw"
+              height="30vh"
+            />
+          </a>
+          <a
+            href={`https://listen.tidal.com/search/albums?q=${post.albumArtist}%20${post.albumTitle}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textAlign: 'right' }}
+          >
+            <Image
+              src="/icons/Tidal_Music_Icon.png"
+              alt="Tidal Music Search"
+              width="30vw"
+              height="30vh"
+            />
+          </a>
         </CardActions>
       </Card>
     </Box>

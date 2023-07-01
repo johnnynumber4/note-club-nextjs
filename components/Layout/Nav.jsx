@@ -113,7 +113,7 @@ const Nav = () => {
           justifyContent="space-between"
         >
           <Link href="/" legacyBehavior>
-            <a className={styles.limitedLogo}>Note Club</a>
+            <a className={styles.logo}>Note Club</a>
           </Link>
           <Search posts={posts} />
           <Container>

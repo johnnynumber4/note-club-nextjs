@@ -72,7 +72,6 @@ handler.post(
               'album'
             )
             .then(async (resultyt) => {
-              console.log(resultyt);
               const ytResultLink = resultyt.content[0].playlistId;
               const ytAlbumArt = resultyt.content[0].thumbnails[3].url;
               postDetails.yt = ytResultLink;
@@ -88,7 +87,6 @@ handler.post(
                 .then(async (page) => {
                   await page.summary().then(async (wikiDesc) => {
                     postDetails.wikiDesc = wikiDesc;
-                    console.log(postDetails);
                     const post = await insertPost(db, {
                       albumTitle: postDetails.albumTitle,
                       albumArtist: postDetails.albumArtist,
@@ -105,7 +103,6 @@ handler.post(
         });
     };
     ytResult(postDetails);
-    console.log(postDetails);
   }
 );
 

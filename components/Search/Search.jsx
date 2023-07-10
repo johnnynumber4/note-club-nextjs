@@ -39,12 +39,15 @@ export default function SearchBar({ posts }) {
         <Autocomplete
           classes={{ root: classes.autoRoot }}
           id="album-search"
-          options={posts.map((option) => option.albumTitle)}
+          options={posts.map((option) => {
+            return `${option.albumTitle + ' - ' + option.albumArtist}`;
+          })}
           renderOption={(option) => {
-            const post = posts.filter(
-              (element) => element.albumTitle === option.key
-            )[0];
-
+            const post = posts.filter((element) => {
+              return (
+                `${element.albumTitle} - ${element.albumArtist}` === option.key
+              );
+            })[0];
             return (
               <li key={option.key}>
                 <Link
@@ -52,7 +55,7 @@ export default function SearchBar({ posts }) {
                   passHref
                 >
                   <a className="hover:underline hover:text-blue-500">
-                    - {option.key}{' '}
+                    {option.key}{' '}
                   </a>
                 </Link>
               </li>

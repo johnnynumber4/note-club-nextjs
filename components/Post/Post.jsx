@@ -65,10 +65,10 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     textAlign: 'left',
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
   },
   divider: {
-    margin: `${theme.spacing.unit * 3}px 0`,
+    margin: `${theme.spacing(3)}px 0`,
     color: 'var(--accents-5)',
   },
   heading: {
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     border: '2px solid white',
     '&:not(:first-of-type)': {
-      marginLeft: -theme.spacing.unit,
+      marginLeft: -theme.spacing(1),
     },
   },
   cardRoot: {

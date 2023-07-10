@@ -14,7 +14,7 @@ const ListenLinks = ({ post, className }) => {
               title="YT album"
               frameBorder="0"
               allow="autoplay; clipboard-write; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
+              allowFullScreen
             ></iframe>
             <a
               href={`https://music.youtube.com/playlist?list=${post.yt}`}

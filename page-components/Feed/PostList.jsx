@@ -52,6 +52,7 @@ const PostList = () => {
           <Grid
             container
             sx={{ minWidth: '33%' }}
+            style={{ marginBottom: '100px' }}
             spacing={2}
             component={Masonry}
           >

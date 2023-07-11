@@ -64,8 +64,8 @@ const useStyles = makeStyles((theme) => ({
     color: 'var(--pill-accent)',
   },
   content: {
-    textAlign: 'left',
-    padding: theme.spacing(3),
+    padding: '8px',
+    paddingBottom: 'unset !important',
   },
   divider: {
     margin: `${theme.spacing(3)}px 0`,
@@ -87,6 +87,9 @@ const useStyles = makeStyles((theme) => ({
   },
   cardRoot: {
     justifyContent: 'space-between',
+  },
+  cardHeaderRoot: {
+    padding: '8px !important',
   },
   timestamp: {
     fontSize: '0.875rem',
@@ -126,12 +129,13 @@ const Post = ({ post, user }) => {
               //     </IconButton>
               //   </div>
               // }
+              classes={{ root: classes.cardHeaderRoot }}
               title={post.albumTitle}
               subheader={timestampTxt}
               subheaderTypographyProps={{ color: 'var(--accents-5)' }}
             />
             <CardMedia className={classes.media} image={post.albumArt} />
-            <CardContent className={classes.content}>
+            <CardContent classes={{ root: classes.content }}>
               <Typography
                 className={'MuiTypography--heading'}
                 variant={'h6'}

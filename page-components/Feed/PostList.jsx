@@ -47,12 +47,12 @@ const PostList = () => {
   return (
     <div>
       <Spacer axis="vertical" size={1} />
-      {showList ? (
-        <Wrapper style={{ display: 'inline' }}>
+      <Wrapper style={{ display: 'inline' }}>
+        {showList ? (
           <Grid
             container
             sx={{ minWidth: '33%' }}
-            style={{ marginBottom: '100px' }}
+            style={{ marginBottom: '20px' }}
             spacing={2}
             component={Masonry}
           >
@@ -71,10 +71,10 @@ const PostList = () => {
               </Grid>
             ))}
           </Grid>
-        </Wrapper>
-      ) : (
-        <LoadingDots />
-      )}
+        ) : (
+          <LoadingDots />
+        )}
+      </Wrapper>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import styles from './Description.module.css';
 
@@ -6,7 +7,7 @@ const Description = ({ post, className }) => {
     <div className={clsx(styles.root, className)}>
       <div className={styles.wrap}>
         <div>
-          <p className={styles.content}>{post.wikiDesc}</p>
+          <Typography className={styles.content}>{post.wikiDesc}</Typography>
         </div>
       </div>
     </div>

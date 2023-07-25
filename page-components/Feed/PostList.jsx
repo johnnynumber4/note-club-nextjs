@@ -29,10 +29,12 @@ const useStyles = makeStyles(() => ({
 
 const PostList = () => {
   const classes = useStyles();
+
   const { data } = usePostPages();
   const posts = data
     ? data.reduce((acc, val) => [...acc, ...val.posts], [])
     : [];
+
   const [showList, setShowList] = useState(true);
   useEffect(() => {
     Router.onRouteChangeStart = () => {
@@ -52,7 +54,7 @@ const PostList = () => {
           <Grid
             container
             sx={{ minWidth: '33%' }}
-            style={{ marginBottom: '20px' }}
+            style={{ marginBottom: '100px' }}
             spacing={2}
             component={Masonry}
           >

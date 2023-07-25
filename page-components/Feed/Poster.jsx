@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
 import { Grid } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
-import { FormControl } from '@mui/material';
+import { Box, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // const useStyles = makeStyles(() => ({
@@ -86,9 +86,11 @@ const PosterInner = () => {
               />
             </Grid>
           </Grid>
-          <LoadingButton type="success" loading={isLoading}>
-            Post
-          </LoadingButton>
+          <Box textAlign="center">
+            <LoadingButton type="success" loading={isLoading}>
+              Post
+            </LoadingButton>
+          </Box>
         </FormControl>
       </Container>
     </form>

@@ -1,13 +1,7 @@
-// import { Button } from '@/components/Button';
-import {
-  // Container,
-  Spacer,
-} from '@/components/Layout';
+import { Spacer } from '@/components/Layout';
 import Wrapper from '@/components/Layout/Wrapper';
 import { Post } from '@/components/Post';
-// import { Text } from '@/components/Text';
 import { usePostPages } from '@/lib/post';
-// import Link from 'next/link';
 import styles from './UserPosts.module.css';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,14 +25,14 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer',
     width: '100%',
   },
+  root: {
+    marginBottom: '100px',
+  },
 }));
 
 const UserPosts = ({ user }) => {
   const classes = useStyles();
-  const {
-    data,
-    //  size, setSize, isLoadingMore, isReachingEnd
-  } = usePostPages({
+  const { data } = usePostPages({
     author: user._id,
   });
   const posts = data
@@ -59,11 +53,13 @@ const UserPosts = ({ user }) => {
   return (
     <div>
       <Spacer axis="vertical" size={1} />
-      {showList ? (
-        <Wrapper style={{ display: 'inline' }}>
+      <Wrapper style={{ display: 'inline' }}>
+        {showList ? (
           <Grid
             container
+            classes={{ root: classes.root }}
             sx={{ minWidth: '33%' }}
+            style={{ marginBotton: '100px' }}
             spacing={2}
             component={Masonry}
           >
@@ -82,10 +78,10 @@ const UserPosts = ({ user }) => {
               </Grid>
             ))}
           </Grid>
-        </Wrapper>
-      ) : (
-        <LoadingDots />
-      )}
+        ) : (
+          <LoadingDots />
+        )}
+      </Wrapper>
     </div>
   );
 };

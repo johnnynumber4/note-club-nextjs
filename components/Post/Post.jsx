@@ -4,18 +4,15 @@ import { useMemo } from 'react';
 import React from 'react';
 import {
   Avatar,
-  // Badge,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   CardMedia,
   Divider,
-  // IconButton,
   Typography,
   Box,
 } from '@material-ui/core';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from 'next/image';
 
@@ -102,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Post = ({ post, user }) => {
   const classes = useStyles();
+
   const profilePic = user ? user.profilePicture : null;
   const timestampTxt = useMemo(() => {
     const diff = Date.now() - new Date(post.createdAt).getTime();
@@ -160,19 +158,21 @@ const Post = ({ post, user }) => {
               {post.creator.username}
             </Typography>
           </Link>
-          <a
-            href={`https://music.youtube.com/playlist?list=${post.yt}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textAlign: 'right' }}
-          >
-            <Image
-              src="/icons/Youtube_Music_icon.png"
-              alt="YouTube Music Search"
-              width="30vw"
-              height="30vh"
-            />
-          </a>
+          {post.yt && (
+            <a
+              href={`https://music.youtube.com/playlist?list=${post.yt}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textAlign: 'right' }}
+            >
+              <Image
+                src="/icons/Youtube_Music_icon.png"
+                alt="YouTube Music Search"
+                width="30vw"
+                height="30vh"
+              />
+            </a>
+          )}
           <a
             href={`https://listen.tidal.com/search/albums?q=${post.albumArtist}%20${post.albumTitle}`}
             target="_blank"

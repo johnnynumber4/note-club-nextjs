@@ -29,10 +29,12 @@ const useStyles = makeStyles(() => ({
 
 const PostList = () => {
   const classes = useStyles();
+
   const { data } = usePostPages();
   const posts = data
     ? data.reduce((acc, val) => [...acc, ...val.posts], [])
     : [];
+
   const [showList, setShowList] = useState(true);
   useEffect(() => {
     Router.onRouteChangeStart = () => {
@@ -47,8 +49,8 @@ const PostList = () => {
   return (
     <div>
       <Spacer axis="vertical" size={1} />
-      {showList ? (
-        <Wrapper style={{ display: 'inline' }}>
+      <Wrapper style={{ display: 'inline' }}>
+        {showList ? (
           <Grid
             container
             sx={{ minWidth: '33%' }}
@@ -71,10 +73,10 @@ const PostList = () => {
               </Grid>
             ))}
           </Grid>
-        </Wrapper>
-      ) : (
-        <LoadingDots />
-      )}
+        ) : (
+          <LoadingDots />
+        )}
+      </Wrapper>
     </div>
   );
 };

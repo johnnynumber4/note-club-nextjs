@@ -141,7 +141,6 @@ const Nav = () => {
                 </Link> */}
               </>
             )}
-            <ThemeSwitcher />
           </Container>
         </Container>
       </Wrapper>

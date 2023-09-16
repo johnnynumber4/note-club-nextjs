@@ -8,6 +8,7 @@ import { auths, validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
 import nc from 'next-connect';
+import { searchSpotifyAlbum } from '@/api-lib/spotify';
 // import YoutubeMusicApi from 'youtube-music-api';
 // import wiki from 'wikijs';
 
@@ -19,6 +20,9 @@ handler.get(async (req, res) => {
   const db = await getMongoDb();
 
   const post = await findPostById(db, req.query.postId);
+  console.log('POST', post);
+  const response = await searchSpotifyAlbum(post.albumArtist, post.albumTitle);
+  console.log(response);
   // const postDetails = {
   //   albumTitle: post.albumTitle,
   //   albumArtist: post.albumArtist,

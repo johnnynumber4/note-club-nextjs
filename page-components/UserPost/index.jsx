@@ -6,7 +6,6 @@ import ListenLinks from '@/components/ListenLinks/ListenLinks';
 import { Grid } from '@material-ui/core';
 import Masonry from 'react-masonry-component';
 import { makeStyles } from '@material-ui/core/styles';
-import { searchSpotifyAlbum } from '../../api-lib/spotify';
 
 const useStyles = makeStyles(() => ({
   post: {

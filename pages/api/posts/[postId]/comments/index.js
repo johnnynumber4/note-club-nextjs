@@ -8,7 +8,6 @@ import { auths, validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
 import nc from 'next-connect';
-import { searchSpotifyAlbum } from '@/api-lib/spotify';
 // import YoutubeMusicApi from 'youtube-music-api';
 // import wiki from 'wikijs';
 

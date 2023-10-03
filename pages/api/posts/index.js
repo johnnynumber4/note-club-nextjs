@@ -6,6 +6,7 @@ import { ncOpts } from '@/api-lib/nc';
 import YoutubeMusicApi from 'youtube-music-api';
 import nc from 'next-connect';
 import wiki from 'wikijs';
+import { searchSpotifyAlbum } from '@/api-lib/spotify';
 
 const handler = nc(ncOpts);
 const api = new YoutubeMusicApi();
@@ -76,6 +77,12 @@ handler.post(
               const ytAlbumArt = resultyt.content[0].thumbnails[3].url;
               postDetails.yt = ytResultLink;
               postDetails.albumArt = ytAlbumArt;
+              const spotify = await searchSpotifyAlbum(
+                postDetails.albumArtist,
+                postDetails.albumTitle
+              );
+              const spotifyLink = spotify.albums.items[0].external_urls.spotify;
+              postDetails.spotify = spotifyLink ?? null;
               wiki()
                 .find(
                   postDetails.albumTitle +
@@ -95,6 +102,7 @@ handler.post(
                       albumArt: postDetails.albumArt,
                       theme: postDetails.theme,
                       author: req.user._id,
+                      spotify: postDetails.spotify,
                     });
                     return res.json({ post });
                   });

@@ -14,16 +14,19 @@ const getAccessToken = async () => {
       refresh_token,
     }),
   });
-
   return response.json();
 };
 
 export const searchSpotifyAlbum = async (albumArtist, albumTitle) => {
   const { access_token } = await getAccessToken();
   const searchString = `?q=${albumTitle}+${albumArtist}&type=album`;
-  return fetch(`https://api.spotify.com/v1/search${searchString}`, {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
+  const response = await fetch(
+    `https://api.spotify.com/v1/search${searchString}`,
+    {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    }
+  );
+  return response.json();
 };

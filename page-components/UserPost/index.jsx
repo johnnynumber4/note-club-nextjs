@@ -17,7 +17,6 @@ const useStyles = makeStyles(() => ({
 
 export const UserPost = ({ post }) => {
   const classes = useStyles();
-  console.log('SEARCH!', searchSpotifyAlbum(post.albumArtist, post.albumTitle));
   return (
     <Wrapper>
       <Spacer size={2} axis="vertical" />

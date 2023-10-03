@@ -186,6 +186,21 @@ const Post = ({ post, user }) => {
               height="30vh"
             />
           </a>
+          {post.spotify && (
+            <a
+              href={`${post.spotify}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textAlign: 'right' }}
+            >
+              <Image
+                src="/icons/Spotify_Music_Icon.png"
+                alt="Spotify Music Search"
+                width="30vw"
+                height="30vh"
+              />
+            </a>
+          )}
         </CardActions>
       </Card>
     </Box>

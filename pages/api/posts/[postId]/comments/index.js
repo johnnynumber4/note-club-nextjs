@@ -20,9 +20,6 @@ handler.get(async (req, res) => {
   const db = await getMongoDb();
 
   const post = await findPostById(db, req.query.postId);
-  console.log('POST', post);
-  const response = await searchSpotifyAlbum(post.albumArtist, post.albumTitle);
-  console.log(response);
   // const postDetails = {
   //   albumTitle: post.albumTitle,
   //   albumArtist: post.albumArtist,

@@ -2,13 +2,13 @@ import { Spacer } from '@/components/Layout';
 import Wrapper from '@/components/Layout/Wrapper';
 import { Post } from '@/components/Post';
 import { usePostPages } from '@/lib/post';
-import styles from './UserPosts.module.css';
-import { Grid } from '@material-ui/core';
+import styles from './PostList.module.css';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Masonry from 'react-masonry-component';
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
 import { LoadingDots } from '../../components/LoadingDots';
-import Masonry from 'react-masonry-component';
 
 const useStyles = makeStyles(() => ({
   card: {
@@ -25,19 +25,17 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer',
     width: '100%',
   },
-  root: {
-    // marginBottom: '100px',
-  },
 }));
 
-const UserPosts = ({ user }) => {
+const FeaturedList = () => {
   const classes = useStyles();
-  const { data } = usePostPages({
-    author: user._id,
-  });
+
+  const { data } = usePostPages();
   const posts = data
     ? data.reduce((acc, val) => [...acc, ...val.posts], [])
     : [];
+
+  const randomJam = Math.floor(Math.random() * posts.length);
 
   const [showList, setShowList] = useState(true);
   useEffect(() => {
@@ -54,29 +52,40 @@ const UserPosts = ({ user }) => {
     <div>
       <Spacer axis="vertical" size={1} />
       <Wrapper style={{ display: 'inline' }}>
-        {showList ? (
+        {showList && posts[0] ? (
           <Grid
             container
-            classes={{ root: classes.root }}
             sx={{ minWidth: '33%' }}
-            style={{ marginBotton: '100px' }}
+            // style={{ marginBottom: '100px' }}
             spacing={2}
             component={Masonry}
           >
-            {posts.map((post) => (
-              <Grid
-                className={classes.post}
-                key={post._id}
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={4}
-                xl={3}
-              >
-                <Post className={styles.post} post={post} user={user} />
-              </Grid>
-            ))}
+            <Grid
+              className={classes.post}
+              key={posts[0]._id}
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              xl={6}
+            >
+              <Typography>Now Playing</Typography>
+              <Post className={styles.post} post={posts[0]} />
+            </Grid>
+            <Grid
+              className={classes.post}
+              key={posts[0]._id}
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              xl={6}
+            >
+              <Typography>Throwback Jam</Typography>
+              <Post className={styles.post} post={posts[randomJam]} />
+            </Grid>
           </Grid>
         ) : (
           <LoadingDots />
@@ -86,4 +95,4 @@ const UserPosts = ({ user }) => {
   );
 };
 
-export default UserPosts;
+export default FeaturedList;

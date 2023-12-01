@@ -2,6 +2,7 @@ import { Spacer } from '@/components/Layout';
 import styles from './Feed.module.css';
 import Poster from './Poster';
 import PostList from './PostList';
+import FeaturedList from './FeaturedList';
 import NowPlaying from './NowPlaying';
 
 export const Feed = () => {
@@ -9,6 +10,7 @@ export const Feed = () => {
     <div className={styles.root}>
       <Spacer size={1} axis="vertical" />
       <Poster />
+      <FeaturedList />
       <PostList />
     </div>
   );

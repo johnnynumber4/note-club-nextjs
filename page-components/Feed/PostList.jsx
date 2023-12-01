@@ -3,7 +3,7 @@ import Wrapper from '@/components/Layout/Wrapper';
 import { Post } from '@/components/Post';
 import { usePostPages } from '@/lib/post';
 import styles from './PostList.module.css';
-import { Grid } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Masonry from 'react-masonry-component';
 import { useEffect, useState } from 'react';
@@ -51,28 +51,32 @@ const PostList = () => {
       <Spacer axis="vertical" size={1} />
       <Wrapper style={{ display: 'inline' }}>
         {showList ? (
-          <Grid
-            container
-            sx={{ minWidth: '33%' }}
-            style={{ marginBottom: '100px' }}
-            spacing={2}
-            component={Masonry}
-          >
-            {posts.map((post) => (
-              <Grid
-                className={classes.post}
-                key={post._id}
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={4}
-                xl={3}
-              >
-                <Post className={styles.post} post={post} />
-              </Grid>
-            ))}
-          </Grid>
+          <Box>
+            {' '}
+            <Typography>The Archives</Typography>
+            <Grid
+              container
+              sx={{ minWidth: '33%' }}
+              // style={{ marginBottom: '100px' }}
+              spacing={2}
+              component={Masonry}
+            >
+              {posts.map((post) => (
+                <Grid
+                  className={classes.post}
+                  key={post._id}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={4}
+                  xl={3}
+                >
+                  <Post className={styles.post} post={post} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         ) : (
           <LoadingDots />
         )}

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import styles from './ListenLinks.module.css';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Description } from '@/components/Description';

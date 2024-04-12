@@ -3,7 +3,7 @@ import Wrapper from '@/components/Layout/Wrapper';
 import { Post } from '@/components/Post';
 import { usePostPages } from '@/lib/post';
 import styles from './PostList.module.css';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Masonry from 'react-masonry-component';
 import { useEffect, useState } from 'react';
@@ -31,9 +31,7 @@ const FeaturedList = () => {
   const classes = useStyles();
 
   const { data } = usePostPages();
-  const posts = data
-    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
-    : [];
+  const posts = data ? data.reduce((acc, val) => [...acc, ...val.posts], []) : [];
 
   const randomJam = Math.floor(Math.random() * posts.length);
 
@@ -48,45 +46,53 @@ const FeaturedList = () => {
     };
   }, []);
 
+  const handleFeelingLucky = () => {
+    const randomPost = posts[randomJam];
+    const url = `/user/${randomPost.creator.username}/post/${randomPost._id}`;
+    Router.push(url);
+  };
+
   return (
     <div>
       <Spacer axis="vertical" size={1} />
       <Wrapper style={{ display: 'inline' }}>
         {showList && posts[0] ? (
-          <Grid
-            container
-            sx={{ minWidth: '33%' }}
-            // style={{ marginBottom: '100px' }}
-            spacing={2}
-            component={Masonry}
-          >
+          <>
             <Grid
               className={classes.post}
               key={posts[0]._id}
               item
               xs={12}
               sm={12}
-              md={6}
-              lg={6}
-              xl={6}
-            >
-              <Typography>Now Playing</Typography>
-              <Post className={styles.post} post={posts[0]} />
-            </Grid>
-            <Grid
-              className={classes.post}
-              key={posts[0]._id}
-              item
-              xs={12}
-              sm={12}
-              md={6}
-              lg={6}
-              xl={6}
+              md={12}
+              lg={12}
+              xl={12}
             >
               <Typography>Throwback Jam</Typography>
-              <Post className={styles.post} post={posts[randomJam]} />
+              <Button variant="outlined" onClick={handleFeelingLucky} className={classes.card}>I'm Feeling Lucky</Button>
             </Grid>
-          </Grid>
+            <Grid
+              container
+              sx={{ minWidth: '33%' }}
+              // style={{ marginBottom: '100px' }}
+              spacing={2}
+              component={Masonry}
+            >
+              <Grid
+                className={classes.post}
+                key={posts[0]._id}
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                xl={12}
+              >
+                <Typography>Now Playing</Typography>
+                <Post className={styles.post} post={posts[0]} />
+              </Grid>
+            </Grid>
+          </>
         ) : (
           <LoadingDots />
         )}

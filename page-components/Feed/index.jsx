@@ -36,7 +36,7 @@ export const Feed = () => {
 
       <div style={{ margin: '30px' }}>
         <Container className={styles.poster}>
-          <div>
+          <div style={{ display: 'unset !important' }}>
             <Button
               variant="outlined"
               onClick={() => handleViewChange('featured')}

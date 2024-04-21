@@ -34,7 +34,7 @@ export const Feed = () => {
       <Spacer size={1} axis="vertical" />
       <Poster />
 
-      <Wrapper>
+      <div style={{ margin: '30px' }}>
         <Container className={styles.poster}>
           <div>
             <Button
@@ -53,7 +53,7 @@ export const Feed = () => {
             </Button>
           </div>
         </Container>
-      </Wrapper>
+      </div>
       {activeView === 'featured' && <FeaturedList />}
       {activeView === 'archives' && <PostList />}
     </div>

@@ -31,7 +31,9 @@ const FeaturedList = () => {
   const classes = useStyles();
 
   const { data } = usePostPages();
-  const posts = data ? data.reduce((acc, val) => [...acc, ...val.posts], []) : [];
+  const posts = data
+    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
+    : [];
 
   const randomJam = Math.floor(Math.random() * posts.length);
 
@@ -69,7 +71,13 @@ const FeaturedList = () => {
               xl={12}
             >
               <Typography>Throwback Jam</Typography>
-              <Button variant="outlined" onClick={handleFeelingLucky} className={classes.card}>I'm Feeling Lucky</Button>
+              <Button
+                variant="outlined"
+                onClick={handleFeelingLucky}
+                className={classes.card}
+              >
+                I'm Feeling Lucky
+              </Button>
             </Grid>
             <Grid
               container

@@ -60,7 +60,7 @@ const FeaturedList = () => {
       <Wrapper style={{ display: 'inline' }}>
         {showList && posts[0] ? (
           <>
-            <Grid
+            {/* <Grid
               className={classes.post}
               key={posts[0]._id}
               item
@@ -78,7 +78,7 @@ const FeaturedList = () => {
               >
                 I'm Feeling Lucky
               </Button>
-            </Grid>
+            </Grid> */}
             <Grid
               container
               sx={{ minWidth: '33%' }}
@@ -96,7 +96,7 @@ const FeaturedList = () => {
                 lg={12}
                 xl={12}
               >
-                <Typography>Now Playing</Typography>
+                {/* <Typography>Now Playing</Typography> */}
                 <Post className={styles.post} post={posts[0]} />
               </Grid>
             </Grid>

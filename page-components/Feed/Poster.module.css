@@ -38,3 +38,41 @@
     padding: 5px;
   }
 }
+
+.modal {
+  background: rgb(0, 0, 0);
+  border: 2px solid #000;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5); /* Adjust box-shadow */
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  max-width: 90%; /* Limit maximum width */
+  max-height: 90vh; /* Set maximum height to 90% of viewport height */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  margin: auto; /* Center horizontally */
+}
+
+.modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.modal li img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    padding: 10px; /* Adjust padding for smaller screens */
+  }
+}

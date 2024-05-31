@@ -9,56 +9,71 @@ import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
-import { Grid } from '@material-ui/core';
-// import { makeStyles } from '@material-ui/core/styles';
-import { Box, FormControl } from '@mui/material';
+import { Modal, Box, Grid, Button, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
-// const useStyles = makeStyles(() => ({
-// }));
-
 const PosterInner = () => {
-  // const classes = useStyles();
   const albumTitleRef = useRef();
   const albumArtistRef = useRef();
   const themeRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
+  const [multipleResults, setMultipleResults] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const { mutate } = usePostPages();
 
-  const onSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      try {
-        setIsLoading(true);
-        await fetcher('/api/posts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            albumTitle: albumTitleRef.current.value,
-            albumArtist: albumArtistRef.current.value,
-            theme: themeRef.current.value,
-          }),
-        });
-        toast.success('You have posted successfully');
-        albumTitleRef.current.value = '';
-        albumArtistRef.current.value = '';
-        themeRef.current.value = '';
-        // refresh post lists
-        mutate();
-      } catch (e) {
-        toast.error(e.message);
-      } finally {
-        setIsLoading(false);
+  const onSubmit = useCallback(async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await fetcher(
+        `/api/search/yt?albumArtist=${albumArtistRef.current.value}&albumTitle=${albumTitleRef.current.value}`
+      );
+      if (response.multipleResults) {
+        setMultipleResults(response.multipleResults);
+        setShowModal(true);
+      } else {
+        toast.error('No albums found');
       }
-    },
-    [mutate]
-  );
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const handleSelection = async (selectedResult) => {
+    try {
+      setIsLoading(true);
+
+      const postDetails = {
+        albumTitle: selectedResult.name,
+        albumArtist: selectedResult.artist,
+        theme: themeRef.current.value,
+        yt: selectedResult.playlistId,
+        albumArt: selectedResult.thumbnails[3].url,
+      };
+
+      // Post to the database
+      await fetcher('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postDetails),
+      });
+
+      toast.success('You have posted successfully');
+      setShowModal(false);
+      mutate();
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <form onSubmit={onSubmit}>
       <Container className={styles.poster}>
-        {/* <Avatar size={40} username={user.username} url={user.profilePicture} /> */}
         <FormControl sx={{ width: '100%' }}>
           <Grid container spacing={1}>
             <Grid item xs={12} md={4}>
@@ -87,12 +102,26 @@ const PosterInner = () => {
             </Grid>
           </Grid>
           <Box textAlign="center">
-            <LoadingButton type="success" loading={isLoading}>
+            <LoadingButton type="submit" loading={isLoading}>
               Post
             </LoadingButton>
           </Box>
         </FormControl>
       </Container>
+
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <Box className={styles.modal}>
+          <h2>Select an Album</h2>
+          <ul>
+            {multipleResults.map((result, index) => (
+              <li key={index} onClick={() => handleSelection(result)}>
+                <img src={result.thumbnails[3].url} alt={result.name} />
+                <span>{result.name}</span>
+              </li>
+            ))}
+          </ul>
+        </Box>
+      </Modal>
     </form>
   );
 };

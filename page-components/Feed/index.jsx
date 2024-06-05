@@ -1,29 +1,13 @@
 import React, { useState } from 'react';
 import { Spacer } from '@/components/Layout';
-// import styles from './Feed.module.css';
 import Poster from './Poster';
 import PostList from './PostList';
 import FeaturedList from './FeaturedList';
-import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import Link from 'next/link';
 import { Container, Wrapper } from '@/components/Layout';
 import styles from './Poster.module.css';
 
-const useStyles = makeStyles(() => ({
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    color: 'unset',
-    backgroundColor: 'unset',
-    boxShadow: 'var(--shadow-smallest)',
-    borderRadius: '8px',
-    transition: 'ease 0.2s box-shadow',
-  },
-}));
-
 export const Feed = () => {
-  const classes = useStyles();
   const [activeView, setActiveView] = useState('featured');
   const handleViewChange = (view) => {
     setActiveView(view);
@@ -33,27 +17,28 @@ export const Feed = () => {
     <div>
       <Spacer size={1} axis="vertical" />
       <Poster />
-
-      <div style={{ margin: '30px' }}>
-        <Container className={styles.poster}>
-          <div style={{ display: 'unset !important' }}>
-            <Button
-              variant="outlined"
-              onClick={() => handleViewChange('featured')}
-              className={classes.card}
-            >
-              Now Playing
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => handleViewChange('archives')}
-              className={classes.card}
-            >
-              The Archives
-            </Button>
+      <Spacer size={1} axis="vertical" />
+      <Wrapper>
+        <div className={styles.root}>
+          <div>
+            <Container className={styles.poster}>
+              <div>
+                <Link href="#">
+                  <a className={styles.link} onClick={() => handleViewChange('featured')}>
+                    Now Playing
+                  </a>
+                </Link>
+                <Link href="#">
+                  <a className={styles.link} onClick={() => handleViewChange('archives')}>
+                    The Archives
+                  </a>
+                </Link>
+              </div>
+            </Container>
           </div>
-        </Container>
-      </div>
+        </div>
+      </Wrapper>
+      <Spacer size={1} axis="vertical" />
       {activeView === 'featured' && <FeaturedList />}
       {activeView === 'archives' && <PostList />}
     </div>

@@ -28,6 +28,21 @@
   margin-top: 1rem;
 }
 
+.link {
+  margin: 0 8px;
+  color: var(--accents-7);
+  text-decoration: none;
+  border: 1px solid var(--accents-7);
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.link:hover {
+  background-color: var(--accents-7);
+  color: var(--background);
+}
+
 @media (max-width: 800px) {
   .poster {
     display: flex;
@@ -40,16 +55,16 @@
 }
 
 .modal {
-  background: rgb(0, 0, 0);
+  background: var(--background);
   border: 2px solid #000;
-  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5); /* Adjust box-shadow */
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
   padding: 20px;
   display: flex;
-  flex-direction: column; /* Stack items vertically */
-  max-width: 90%; /* Limit maximum width */
-  max-height: 90vh; /* Set maximum height to 90% of viewport height */
-  overflow-y: auto; /* Enable vertical scrolling if content overflows */
-  margin: auto; /* Center horizontally */
+  flex-direction: column;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: auto;
 }
 
 .modal ul {
@@ -73,6 +88,18 @@
 
 @media (max-width: 600px) {
   .modal {
-    padding: 10px; /* Adjust padding for smaller screens */
+    padding: 10px;
   }
+}
+
+.expandToggle {
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-top: 1em;
+  user-select: none;
+}
+
+.additionalContent {
+  margin-top: 1em;
+  transition: max-height 0.3s ease-in-out;
 }

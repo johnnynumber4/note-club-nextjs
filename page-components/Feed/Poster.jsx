@@ -19,8 +19,13 @@ const PosterInner = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [multipleResults, setMultipleResults] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false); // State for collapse/expand
 
   const { mutate } = usePostPages();
+
+  const toggleExpand = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   const onSubmit = useCallback(async (e) => {
     e.preventDefault();
@@ -73,42 +78,6 @@ const PosterInner = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <Container className={styles.poster}>
-        <FormControl sx={{ width: '100%' }}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={4}>
-              <Input
-                ref={albumTitleRef}
-                className={styles.input}
-                placeholder={`What album should we listen to?`}
-                ariaLabel={`What album should we listen to?`}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Input
-                ref={albumArtistRef}
-                className={styles.input}
-                placeholder={`And who was that by?`}
-                ariaLabel={`And who was that by?`}
-              />
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <Input
-                ref={themeRef}
-                className={styles.input}
-                placeholder={`What's the theme?`}
-                ariaLabel={`What's the theme?`}
-              />
-            </Grid>
-          </Grid>
-          <Box textAlign="center">
-            <LoadingButton type="submit" loading={isLoading}>
-              Post
-            </LoadingButton>
-          </Box>
-        </FormControl>
-      </Container>
-
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <Box className={styles.modal}>
           <h2>Select an Album</h2>
@@ -122,6 +91,54 @@ const PosterInner = () => {
           </ul>
         </Box>
       </Modal>
+
+      <Box
+        textAlign="center"
+        onClick={toggleExpand}
+        className={styles.expandToggle}
+      >
+        {isExpanded ? '▲' : '▼'}
+      </Box>
+
+      {isExpanded && (
+        <div className={styles.additionalContent}>
+          <Container className={styles.poster}>
+            <FormControl sx={{ width: '100%' }}>
+              <Grid container spacing={1}>
+                <Grid item xs={12} md={4}>
+                  <Input
+                    ref={albumTitleRef}
+                    className={styles.input}
+                    placeholder={`What album should we listen to?`}
+                    ariaLabel={`What album should we listen to?`}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Input
+                    ref={albumArtistRef}
+                    className={styles.input}
+                    placeholder={`And who was that by?`}
+                    ariaLabel={`And who was that by?`}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Input
+                    ref={themeRef}
+                    className={styles.input}
+                    placeholder={`What's the theme?`}
+                    ariaLabel={`What's the theme?`}
+                  />
+                </Grid>
+              </Grid>
+              <Box textAlign="center">
+                <LoadingButton type="submit" loading={isLoading}>
+                  Post
+                </LoadingButton>
+              </Box>
+            </FormControl>
+          </Container>
+        </div>
+      )}
     </form>
   );
 };

@@ -106,6 +106,7 @@ const Post = ({ post, user }) => {
     if (diff < 1 * 60 * 1000) return 'Just now';
     return `${format(diff, true)} ago`;
   }, [post.createdAt]);
+
   return (
     <Box>
       <Card className={classes.card}>
@@ -117,20 +118,13 @@ const Post = ({ post, user }) => {
         >
           <Box>
             <CardHeader
-              // action={
-              //   <div>
-              //     <Badge badgeContent={'2'} color="secondary">
-              //       {' '}
-              //     </Badge>
-              //     <IconButton aria-label="settings">
-              //       <MoreVertIcon />
-              //     </IconButton>
-              //   </div>
-              // }
               classes={{ root: classes.cardHeaderRoot }}
               title={post.albumTitle}
-              subheader={timestampTxt}
-              subheaderTypographyProps={{ color: 'var(--accents-5)' }}
+              subheader={
+                <Typography className={classes.timestamp}>
+                  {timestampTxt}
+                </Typography>
+              }
             />
             <CardMedia className={classes.media} image={post.albumArt} />
             <CardContent classes={{ root: classes.content }}>

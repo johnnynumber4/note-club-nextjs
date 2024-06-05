@@ -53,7 +53,7 @@ const PostList = () => {
         {showList ? (
           <Box>
             {' '}
-            <Typography>The Archives</Typography>
+            {/* <Typography>The Archives</Typography> */}
             <Grid
               container
               sx={{ minWidth: '33%' }}

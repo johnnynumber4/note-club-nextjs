@@ -28,6 +28,21 @@
   margin-top: 1rem;
 }
 
+.link {
+  margin: 0 8px;
+  color: var(--accents-7);
+  text-decoration: none;
+  border: 1px solid var(--accents-7);
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.link:hover {
+  background-color: var(--accents-7);
+  color: var(--background);
+}
+
 @media (max-width: 800px) {
   .poster {
     display: flex;
@@ -37,4 +52,54 @@
   .input {
     padding: 5px;
   }
+}
+
+.modal {
+  background: var(--background);
+  border: 2px solid #000;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: auto;
+}
+
+.modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.modal li img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    padding: 10px;
+  }
+}
+
+.expandToggle {
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-top: 1em;
+  user-select: none;
+}
+
+.additionalContent {
+  margin-top: 1em;
+  transition: max-height 0.3s ease-in-out;
 }

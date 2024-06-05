@@ -31,7 +31,9 @@ const FeaturedList = () => {
   const classes = useStyles();
 
   const { data } = usePostPages();
-  const posts = data ? data.reduce((acc, val) => [...acc, ...val.posts], []) : [];
+  const posts = data
+    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
+    : [];
 
   const randomJam = Math.floor(Math.random() * posts.length);
 
@@ -58,7 +60,7 @@ const FeaturedList = () => {
       <Wrapper style={{ display: 'inline' }}>
         {showList && posts[0] ? (
           <>
-            <Grid
+            {/* <Grid
               className={classes.post}
               key={posts[0]._id}
               item
@@ -69,8 +71,14 @@ const FeaturedList = () => {
               xl={12}
             >
               <Typography>Throwback Jam</Typography>
-              <Button variant="outlined" onClick={handleFeelingLucky} className={classes.card}>I'm Feeling Lucky</Button>
-            </Grid>
+              <Button
+                variant="outlined"
+                onClick={handleFeelingLucky}
+                className={classes.card}
+              >
+                I'm Feeling Lucky
+              </Button>
+            </Grid> */}
             <Grid
               container
               sx={{ minWidth: '33%' }}
@@ -88,7 +96,7 @@ const FeaturedList = () => {
                 lg={12}
                 xl={12}
               >
-                <Typography>Now Playing</Typography>
+                {/* <Typography>Now Playing</Typography> */}
                 <Post className={styles.post} post={posts[0]} />
               </Grid>
             </Grid>

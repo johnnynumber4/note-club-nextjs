@@ -1,28 +1,46 @@
+import React, { useState } from 'react';
 import { Spacer } from '@/components/Layout';
-import styles from './Feed.module.css';
 import Poster from './Poster';
 import PostList from './PostList';
 import FeaturedList from './FeaturedList';
-import NowPlaying from './NowPlaying';
+import Link from 'next/link';
+import { Container, Wrapper } from '@/components/Layout';
+import styles from './Poster.module.css';
 
 export const Feed = () => {
+  const [activeView, setActiveView] = useState('featured');
+  const handleViewChange = (view) => {
+    setActiveView(view);
+  };
+
   return (
-    <div className={styles.root}>
+    <div>
       <Spacer size={1} axis="vertical" />
       <Poster />
-      <FeaturedList />
-      <PostList />
-    </div>
-  );
-};
-
-export const NowPlayingFeed = () => {
-  return (
-    <div className={styles.root}>
       <Spacer size={1} axis="vertical" />
-      {/* <Poster /> */}
-      Now Playing
-      <NowPlaying />
+      <Wrapper>
+        <div className={styles.root}>
+          <div>
+            <Container className={styles.poster}>
+              <div>
+                <Link href="#">
+                  <a className={styles.link} onClick={() => handleViewChange('featured')}>
+                    Now Playing
+                  </a>
+                </Link>
+                <Link href="#">
+                  <a className={styles.link} onClick={() => handleViewChange('archives')}>
+                    The Archives
+                  </a>
+                </Link>
+              </div>
+            </Container>
+          </div>
+        </div>
+      </Wrapper>
+      <Spacer size={1} axis="vertical" />
+      {activeView === 'featured' && <FeaturedList />}
+      {activeView === 'archives' && <PostList />}
     </div>
   );
 };

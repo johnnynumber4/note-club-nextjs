@@ -28,6 +28,11 @@
   margin-top: 1rem;
 }
 
+.navContainer {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
 .link {
   margin: 0 8px;
   color: var(--accents-7);

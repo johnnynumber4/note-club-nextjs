@@ -33,31 +33,33 @@ export const Feed = () => {
       <Wrapper>
         <div className={styles.root}>
           <Container className={styles.poster}>
-            <nav>
-              <Link href="#">
-                <a
-                  className={styles.link}
-                  onClick={() => handleViewChange('featured')}
-                >
-                  Now Playing
-                </a>
-              </Link>
-              <Link href="#">
-                <a
-                  className={styles.link}
-                  onClick={() => handleViewChange('archives')}
-                >
-                  The Archives
-                </a>
-              </Link>
-              <Link href="#">
-                <a
-                  className={styles.link}
-                  onClick={handleFeelingLucky}
-                >
-                  I'm Feeling Lucky
-                </a>
-              </Link>
+            <nav className={styles.navContainer}>
+              <div className={styles.linkContainer}>
+                <Link href="#">
+                  <a
+                    className={styles.link}
+                    onClick={() => handleViewChange('featured')}
+                  >
+                    Now Playing
+                  </a>
+                </Link>
+                <Link href="#">
+                  <a
+                    className={styles.link}
+                    onClick={() => handleViewChange('archives')}
+                  >
+                    The Archives
+                  </a>
+                </Link>
+                <Link href="#">
+                  <a
+                    className={styles.link}
+                    onClick={handleFeelingLucky}
+                  >
+                    I'm Feeling Lucky
+                  </a>
+                </Link>
+              </div>
             </nav>
           </Container>
         </div>

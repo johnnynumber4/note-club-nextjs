@@ -47,6 +47,13 @@
   .poster {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center links */
+  }
+
+  .link {
+    margin: 8px 0; /* Add vertical margin for spacing */
+    width: 100%; /* Full width for better touch targets */
+    text-align: center; /* Center text */
   }
 
   .input {

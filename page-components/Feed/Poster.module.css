@@ -33,6 +33,10 @@
   white-space: nowrap;
 }
 
+.linkContainer {
+  display: inline-block;
+}
+
 .link {
   margin: 0 8px;
   color: var(--accents-7);
@@ -67,6 +71,10 @@
 }
 
 .modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: var(--background);
   border: 2px solid #000;
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
@@ -76,7 +84,6 @@
   max-width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  margin: auto;
 }
 
 .modal ul {
@@ -101,6 +108,7 @@
 @media (max-width: 600px) {
   .modal {
     padding: 10px;
+    width: 90vw !important;
   }
 }
 

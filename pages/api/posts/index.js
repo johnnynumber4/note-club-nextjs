@@ -1,71 +1,63 @@
+import nc from 'next-connect';
+import wiki from 'wikijs';
+
 import { ValidateProps } from '@/api-lib/constants';
 import { findPosts, insertPost } from '@/api-lib/db';
 import { auths, validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
-import nc from 'next-connect';
-import wiki from 'wikijs';
 import { searchSpotifyAlbum } from '@/api-lib/spotify';
 
 const handler = nc(ncOpts);
 
 handler.get(async (req, res) => {
-  const db = await getMongoDb();
-
-  const posts = await findPosts(
-    db,
-    req.query.before ? new Date(req.query.before) : undefined,
-    req.query.by,
-    req.query.limit ? parseInt(req.query.limit, 10) : undefined
-  );
-
-  res.json({ posts });
+  try {
+    const db = await getMongoDb();
+    const posts = await findPosts(
+      db,
+      req.query.before ? new Date(req.query.before) : undefined,
+      req.query.by,
+      req.query.limit ? parseInt(req.query.limit, 10) : undefined
+    );
+    res.json({ posts });
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).json({ error: 'Failed to fetch posts' });
+  }
 });
+
+const postSchema = {
+  type: 'object',
+  properties: {
+    albumTitle: ValidateProps.post.albumTitle,
+    albumArtist: ValidateProps.post.albumArtist,
+    yt: ValidateProps.post.yt,
+    theme: ValidateProps.post.theme,
+    albumArt: ValidateProps.post.albumArt,
+  },
+  required: ['albumTitle', 'albumArtist', 'yt', 'theme', 'albumArt'],
+  additionalProperties: false,
+};
 
 handler.post(
   ...auths,
-  validateBody({
-    type: 'object',
-    properties: {
-      albumTitle: ValidateProps.post.albumTitle,
-      albumArtist: ValidateProps.post.albumArtist,
-      yt: ValidateProps.post.yt,
-      theme: ValidateProps.post.theme,
-      albumArt: ValidateProps.post.albumArt,
-    },
-    required: ['albumTitle', 'albumArtist', 'yt', 'theme', 'albumArt'],
-    additionalProperties: false,
-  }),
+  validateBody(postSchema),
   async (req, res) => {
     if (!req.user) {
       return res.status(401).end();
     }
 
-    const postDetails = {
-      albumTitle: req.body.albumTitle,
-      albumArtist: req.body.albumArtist,
-      theme: req.body.theme,
-      yt: req.body.yt,
-      albumArt: req.body.albumArt,
-    };
+    const { albumTitle, albumArtist, theme, yt, albumArt } = req.body;
 
-    const db = await getMongoDb();
+    const postDetails = { albumTitle, albumArtist, theme, yt, albumArt };
 
     try {
-      const spotify = await searchSpotifyAlbum(
-        postDetails.albumArtist,
-        postDetails.albumTitle
-      );
+      const db = await getMongoDb();
 
-      if (spotify.albums && spotify.albums.items.length > 0) {
-        postDetails.spotify = spotify.albums.items[0].external_urls.spotify;
-      } else {
-        postDetails.spotify = null;
-      }
+      const spotify = await searchSpotifyAlbum(albumArtist, albumTitle);
+      postDetails.spotify = spotify.albums?.items[0]?.external_urls?.spotify || null;
 
-      const page = await wiki().find(
-        `${postDetails.albumTitle} ${postDetails.albumArtist} (album)`
-      );
+      const page = await wiki().find(`${albumTitle} ${albumArtist} (album)`);
       postDetails.wikiDesc = await page.summary();
     } catch (error) {
       console.error('Error fetching additional data:', error);
@@ -73,18 +65,16 @@ handler.post(
       postDetails.spotify = null;
     }
 
-    const post = await insertPost(db, {
-      albumTitle: postDetails.albumTitle,
-      albumArtist: postDetails.albumArtist,
-      theme: postDetails.theme,
-      yt: postDetails.yt,
-      albumArt: postDetails.albumArt,
-      wikiDesc: postDetails.wikiDesc,
-      spotify: postDetails.spotify,
-      author: req.user._id,
-    });
-
-    return res.json({ post });
+    try {
+      const post = await insertPost(db, {
+        ...postDetails,
+        author: req.user._id,
+      });
+      res.json({ post });
+    } catch (error) {
+      console.error('Error inserting post:', error);
+      res.status(500).json({ error: 'Failed to insert post' });
+    }
   }
 );
 

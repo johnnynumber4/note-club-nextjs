@@ -57,7 +57,9 @@ handler.post(
       const spotify = await searchSpotifyAlbum(albumArtist, albumTitle);
       postDetails.spotify = spotify.albums?.items[0]?.external_urls?.spotify || null;
 
-      const page = await wiki().find(`${albumTitle} ${albumArtist} (album)`);
+      const page = await wiki().find(
+        `${albumTitle} ${albumArtist} (album)`
+      );
       postDetails.wikiDesc = await page.summary();
     } catch (error) {
       console.error('Error fetching additional data:', error);

@@ -49,7 +49,8 @@ const PosterInner = () => {
     }
   }, [isLoading]);
 
-  const handleSelection = async (selectedResult) => {
+  const handleSelection = useCallback(async (selectedResult) => {
+    if (isLoading) return; // Prevent multiple selections
     try {
       setIsLoading(true);
 
@@ -76,7 +77,7 @@ const PosterInner = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isLoading, mutate]);
 
   return (
     <form onSubmit={onSubmit}>
@@ -85,7 +86,11 @@ const PosterInner = () => {
           <h2>Select an Album</h2>
           <ul>
             {multipleResults.map((result, index) => (
-              <li key={index} onClick={() => handleSelection(result)}>
+              <li
+                key={index}
+                onClick={() => !isLoading && handleSelection(result)}
+                className={isLoading ? styles.disabled : ''}
+              >
                 <img src={result.thumbnails[3].url} alt={result.name} />
                 <span>{result.name}</span>
               </li>

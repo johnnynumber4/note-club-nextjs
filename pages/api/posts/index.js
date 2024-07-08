@@ -49,8 +49,6 @@ handler.post(...auths, validateBody(postSchema), async (req, res) => {
   const postDetails = { albumTitle, albumArtist, theme, yt, albumArt };
 
   try {
-    const db = await getMongoDb();
-
     const spotify = await searchSpotifyAlbum(albumArtist, albumTitle);
     postDetails.spotify =
       spotify.albums?.items[0]?.external_urls?.spotify || null;
@@ -64,6 +62,7 @@ handler.post(...auths, validateBody(postSchema), async (req, res) => {
   }
 
   try {
+    const db = await getMongoDb();
     const post = await insertPost(db, {
       ...postDetails,
       author: req.user._id,

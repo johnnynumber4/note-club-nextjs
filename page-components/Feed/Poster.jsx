@@ -29,6 +29,8 @@ const PosterInner = () => {
 
   const onSubmit = useCallback(async (e) => {
     e.preventDefault();
+    if (isLoading) return; // Prevent multiple submissions
+
     try {
       setIsLoading(true);
       const response = await fetcher(
@@ -45,7 +47,7 @@ const PosterInner = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [isLoading]);
 
   const handleSelection = async (selectedResult) => {
     try {
@@ -111,6 +113,7 @@ const PosterInner = () => {
                     className={styles.input}
                     placeholder={`What album should we listen to?`}
                     ariaLabel={`What album should we listen to?`}
+                    disabled={isLoading} // Disable input while loading
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -119,6 +122,7 @@ const PosterInner = () => {
                     className={styles.input}
                     placeholder={`And who was that by?`}
                     ariaLabel={`And who was that by?`}
+                    disabled={isLoading} // Disable input while loading
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -127,11 +131,12 @@ const PosterInner = () => {
                     className={styles.input}
                     placeholder={`What's the theme?`}
                     ariaLabel={`What's the theme?`}
+                    disabled={isLoading} // Disable input while loading
                   />
                 </Grid>
               </Grid>
               <Box textAlign="center">
-                <LoadingButton type="submit" loading={isLoading}>
+                <LoadingButton type="submit" loading={isLoading} disabled={isLoading}>
                   Post
                 </LoadingButton>
               </Box>

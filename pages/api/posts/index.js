@@ -39,45 +39,40 @@ const postSchema = {
   additionalProperties: false,
 };
 
-handler.post(
-  ...auths,
-  validateBody(postSchema),
-  async (req, res) => {
-    if (!req.user) {
-      return res.status(401).end();
-    }
-
-    const { albumTitle, albumArtist, theme, yt, albumArt } = req.body;
-
-    const postDetails = { albumTitle, albumArtist, theme, yt, albumArt };
-
-    try {
-      const db = await getMongoDb();
-
-      const spotify = await searchSpotifyAlbum(albumArtist, albumTitle);
-      postDetails.spotify = spotify.albums?.items[0]?.external_urls?.spotify || null;
-
-      const page = await wiki().find(
-        `${albumTitle} ${albumArtist} (album)`
-      );
-      postDetails.wikiDesc = await page.summary();
-    } catch (error) {
-      console.error('Error fetching additional data:', error);
-      postDetails.wikiDesc = 'Description not available.';
-      postDetails.spotify = null;
-    }
-
-    try {
-      const post = await insertPost(db, {
-        ...postDetails,
-        author: req.user._id,
-      });
-      res.json({ post });
-    } catch (error) {
-      console.error('Error inserting post:', error);
-      res.status(500).json({ error: 'Failed to insert post' });
-    }
+handler.post(...auths, validateBody(postSchema), async (req, res) => {
+  if (!req.user) {
+    return res.status(401).end();
   }
-);
+
+  const { albumTitle, albumArtist, theme, yt, albumArt } = req.body;
+
+  const postDetails = { albumTitle, albumArtist, theme, yt, albumArt };
+
+  try {
+    const db = await getMongoDb();
+
+    const spotify = await searchSpotifyAlbum(albumArtist, albumTitle);
+    postDetails.spotify =
+      spotify.albums?.items[0]?.external_urls?.spotify || null;
+
+    const page = await wiki().find(`${albumTitle} ${albumArtist} (album)`);
+    postDetails.wikiDesc = await page.summary();
+  } catch (error) {
+    console.error('Error fetching additional data:', error);
+    postDetails.wikiDesc = 'Description not available.';
+    postDetails.spotify = null;
+  }
+
+  try {
+    const post = await insertPost(db, {
+      ...postDetails,
+      author: req.user._id,
+    });
+    res.json({ post });
+  } catch (error) {
+    console.error('Error inserting post:', error);
+    res.status(500).json({ error: 'Failed to insert post' });
+  }
+});
 
 export default handler;

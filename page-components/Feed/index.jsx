@@ -10,7 +10,9 @@ import styles from './Poster.module.css';
 
 export const Feed = () => {
   const { data } = usePostPages();
-  const posts = data ? data.reduce((acc, val) => [...acc, ...val.posts], []) : [];
+  const posts = data
+    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
+    : [];
 
   const [activeView, setActiveView] = useState('featured');
 
@@ -52,10 +54,7 @@ export const Feed = () => {
                   </a>
                 </Link>
                 <Link href="#">
-                  <a
-                    className={styles.link}
-                    onClick={handleFeelingLucky}
-                  >
+                  <a className={styles.link} onClick={handleFeelingLucky}>
                     I'm Feeling Lucky
                   </a>
                 </Link>

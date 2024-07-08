@@ -19,7 +19,9 @@ const useStyles = makeStyles(() => ({
 const FeaturedList = () => {
   const classes = useStyles();
   const { data } = usePostPages();
-  const posts = data ? data.reduce((acc, val) => [...acc, ...val.posts], []) : [];
+  const posts = data
+    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
+    : [];
   const [showList, setShowList] = useState(true);
 
   useEffect(() => {

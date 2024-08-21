@@ -6,11 +6,11 @@ import { LoadingDots } from '@/components/LoadingDots';
 import { Text, TextLink } from '@/components/Text';
 import { useCommentPages } from '@/lib/comment';
 import { fetcher } from '@/lib/fetch';
-import { useCurrentUser } from '@/lib/user';
 import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Commenter.module.css';
+import { useSession } from 'next-auth/react';
 
 const CommenterInner = ({ user, post }) => {
   const contentRef = useRef();
@@ -26,7 +26,10 @@ const CommenterInner = ({ user, post }) => {
         await fetcher(`/api/posts/${post._id}/comments`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: contentRef.current.value }),
+          body: JSON.stringify({
+            content: contentRef.current.value,
+            username: user.username,
+          }),
         });
         toast.success('You have added a comment');
         contentRef.current.value = '';
@@ -38,7 +41,7 @@ const CommenterInner = ({ user, post }) => {
         setIsLoading(false);
       }
     },
-    [mutate, post._id]
+    [mutate, post._id, user.username]
   );
 
   return (
@@ -60,7 +63,7 @@ const CommenterInner = ({ user, post }) => {
 };
 
 const Commenter = ({ post }) => {
-  const { data, error } = useCurrentUser();
+  const { data, error } = useSession();
   const loading = !data && !error;
 
   return (

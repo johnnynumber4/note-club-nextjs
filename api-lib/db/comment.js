@@ -1,31 +1,20 @@
 import { ObjectId } from 'mongodb';
-import { dbProjectionUsers } from '.';
+// import { dbProjectionUsers } from '.';
 
 export async function findComments(db, postId, before, limit = 10) {
   try {
-    return await db
-      .collection('comments')
-      .aggregate([
-        {
-          $match: {
-            postId: new ObjectId(postId),
-            ...(before && { createdAt: { $lt: before } }),
-          },
-        },
-        { $sort: { _id: -1 } },
-        { $limit: limit },
-        {
-          $lookup: {
-            from: 'users',
-            localField: 'author',
-            foreignField: '_id',
-            as: 'creator',
-          },
-        },
-        { $unwind: '$creator' },
-        { $project: dbProjectionUsers('creator.') },
-      ])
-      .toArray();
+    const match = {
+      postId: new ObjectId(postId),
+      ...(before && { createdAt: { $lt: before } }),
+    };
+
+    const pipeline = [
+      { $match: match },
+      { $sort: { _id: -1 } },
+      { $limit: limit },
+    ];
+
+    return await db.collection('comments').aggregate(pipeline).toArray();
   } catch (error) {
     console.error('Error finding comments:', error);
     throw new Error('Failed to find comments');

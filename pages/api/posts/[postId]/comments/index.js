@@ -1,5 +1,4 @@
 import nc from 'next-connect';
-import { getSession } from 'next-auth/react';
 
 import { ValidateProps } from '@/api-lib/constants';
 import { findPostById } from '@/api-lib/db';
@@ -7,6 +6,7 @@ import { findComments, insertComment } from '@/api-lib/db/comment';
 import { validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
+import { ObjectId } from 'mongodb';
 
 const handler = nc(ncOpts);
 
@@ -14,6 +14,12 @@ const handler = nc(ncOpts);
 handler.get(async (req, res) => {
   try {
     const db = await getMongoDb();
+
+    // Validate postId
+    if (!ObjectId.isValid(req.query.postId)) {
+      return res.status(400).json({ error: { message: 'Invalid postId.' } });
+    }
+
     const post = await findPostById(db, req.query.postId);
 
     if (!post) {
@@ -24,37 +30,29 @@ handler.get(async (req, res) => {
       db,
       req.query.postId,
       req.query.before ? new Date(req.query.before) : undefined,
-      req.query.limit ? parseInt(req.query.limit, 10) : undefined
+      req.query.limit ? parseInt(req.query.limit, 10) : 10 // Default limit to 10 if not provided
     );
 
     res.json({ comments });
   } catch (error) {
     console.error('Error fetching comments:', error);
-    res.status(500).json({ error: 'Failed to fetch comments' });
+    res.status(500).json({ error: { message: 'Failed to fetch comments' } });
   }
 });
 
-// POST request to create a new comment
+// POST request to insert a new comment
 handler.post(
   validateBody({
     type: 'object',
     properties: {
       content: ValidateProps.comment.content,
+      username: { type: 'string' },
     },
     required: ['content'],
     additionalProperties: false,
   }),
   async (req, res) => {
     try {
-      // Fetch session to ensure the user is authenticated
-      const session = await getSession({ req });
-
-      if (!session || !session.user) {
-        return res
-          .status(401)
-          .json({ error: 'You must be logged in to comment' });
-      }
-
       const db = await getMongoDb();
       const content = req.body.content;
       const post = await findPostById(db, req.query.postId);
@@ -64,7 +62,7 @@ handler.post(
       }
 
       const comment = await insertComment(db, post._id, {
-        author: session.user.username, // Store the Discord username
+        author: req.body.username,
         content,
       });
 

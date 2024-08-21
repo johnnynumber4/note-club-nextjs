@@ -15,5 +15,6 @@ export const ValidateProps = {
   },
   comment: {
     content: { type: 'string', minLength: 1, maxLength: 280 },
+    author: { type: 'string', minLength: 1, maxLength: 280 },
   },
 };

@@ -69,4 +69,24 @@ handler.post(
   }
 );
 
+handler.get(async (req, res) => {
+  const db = await getMongoDb();
+  const { username } = req.query;
+
+  if (!username) {
+    return res.status(400).json({ error: 'Username is required' });
+  }
+
+  try {
+    const user = await findUserByUsername(db, username);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default handler;

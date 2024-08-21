@@ -3,7 +3,7 @@ import wiki from 'wikijs';
 
 import { ValidateProps } from '@/api-lib/constants';
 import { findPosts, insertPost } from '@/api-lib/db';
-import { auths, validateBody } from '@/api-lib/middlewares';
+import { validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
 import { searchSpotifyAlbum } from '@/api-lib/spotify';
@@ -34,19 +34,31 @@ const postSchema = {
     yt: ValidateProps.post.yt,
     theme: ValidateProps.post.theme,
     albumArt: ValidateProps.post.albumArt,
+    username: { type: 'string' },
   },
-  required: ['albumTitle', 'albumArtist', 'yt', 'theme', 'albumArt'],
+  required: [
+    'albumTitle',
+    'albumArtist',
+    'yt',
+    'theme',
+    'albumArt',
+    'username',
+  ],
   additionalProperties: false,
 };
 
-handler.post(...auths, validateBody(postSchema), async (req, res) => {
-  if (!req.user) {
-    return res.status(401).end();
-  }
-
+handler.post(validateBody(postSchema), async (req, res) => {
+  const username = req.body.username;
   const { albumTitle, albumArtist, theme, yt, albumArt } = req.body;
 
-  const postDetails = { albumTitle, albumArtist, theme, yt, albumArt };
+  const postDetails = {
+    albumTitle,
+    albumArtist,
+    theme,
+    yt,
+    albumArt,
+    author: username,
+  };
 
   try {
     const spotify = await searchSpotifyAlbum(albumArtist, albumTitle);
@@ -63,10 +75,7 @@ handler.post(...auths, validateBody(postSchema), async (req, res) => {
 
   try {
     const db = await getMongoDb();
-    const post = await insertPost(db, {
-      ...postDetails,
-      author: req.user._id,
-    });
+    const post = await insertPost(db, postDetails);
     res.json({ post });
   } catch (error) {
     console.error('Error inserting post:', error);

@@ -43,10 +43,7 @@ export default function SearchBar({ posts }) {
           })[0];
           return (
             <li key={post._id}>
-              <Link
-                href={`/user/${post.creator.username}/post/${post._id}`}
-                passHref
-              >
+              <Link href={`/user/${post.author}/post/${post._id}`} passHref>
                 <a className="hover:underline hover:text-blue-500">
                   {option.key}{' '}
                 </a>

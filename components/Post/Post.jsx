@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import React from 'react';
 import {
-  Avatar,
   Card,
   CardActions,
   CardContent,
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     transition: 'ease 0.2s box-shadow',
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%', // 16:9 aspect ratio
   },
   cardContent: {
     flexGrow: 1,
@@ -97,10 +96,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = ({ post, user }) => {
+const Post = ({ post }) => {
   const classes = useStyles();
 
-  const profilePic = user ? user.profilePicture : null;
   const timestampTxt = useMemo(() => {
     const diff = Date.now() - new Date(post.createdAt).getTime();
     if (diff < 1 * 60 * 1000) return 'Just now';
@@ -111,8 +109,7 @@ const Post = ({ post, user }) => {
     <Box>
       <Card className={classes.card}>
         <Link
-          key={post._id}
-          href={`/user/${post.creator.username}/post/${post._id}`}
+          href={`/user/${post.author}/post/${post._id}`}
           passHref
           legacyBehavior
         >
@@ -126,10 +123,14 @@ const Post = ({ post, user }) => {
                 </Typography>
               }
             />
-            <CardMedia className={classes.media} image={post.albumArt} />
+            <CardMedia
+              className={classes.media}
+              image={post.albumArt || '/default-album-art.png'} // Default album art
+              title={post.albumTitle}
+            />
             <CardContent classes={{ root: classes.content }}>
               <Typography
-                className={'MuiTypography--heading'}
+                className={classes.heading}
                 variant={'h6'}
                 gutterBottom
               >
@@ -143,13 +144,9 @@ const Post = ({ post, user }) => {
           </Box>
         </Link>
         <CardActions classes={{ root: classes.cardRoot }}>
-          {profilePic && <Avatar className={classes.avatar} src={profilePic} />}
-          <Link href={`/user/${post.creator.username}`}>
-            <Typography
-              className={'MuiTypography--subheading'}
-              variant={'caption'}
-            >
-              {post.creator.username}
+          <Link href={`/user/${post.author}`}>
+            <Typography className={classes.subheading} variant={'caption'}>
+              {post.author}
             </Typography>
           </Link>
           {post.yt && (
@@ -162,24 +159,11 @@ const Post = ({ post, user }) => {
               <Image
                 src="/icons/Youtube_Music_icon.png"
                 alt="YouTube Music Search"
-                width="30vw"
-                height="30vh"
+                width="30"
+                height="30"
               />
             </a>
           )}
-          <a
-            href={`https://listen.tidal.com/search/albums?q=${post.albumArtist}%20${post.albumTitle}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textAlign: 'right' }}
-          >
-            <Image
-              src="/icons/Tidal_Music_Icon.png"
-              alt="Tidal Music Search"
-              width="30vw"
-              height="30vh"
-            />
-          </a>
           {post.spotify && (
             <a
               href={`${post.spotify}`}
@@ -190,8 +174,23 @@ const Post = ({ post, user }) => {
               <Image
                 src="/icons/Spotify_Music_Icon.png"
                 alt="Spotify Music Search"
-                width="30vw"
-                height="30vh"
+                width="30"
+                height="30"
+              />
+            </a>
+          )}
+          {post.tidal && (
+            <a
+              href={`https://listen.tidal.com/search/albums?q=${post.albumArtist}%20${post.albumTitle}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textAlign: 'right' }}
+            >
+              <Image
+                src="/icons/Tidal_Music_Icon.png"
+                alt="Tidal Music Search"
+                width="30"
+                height="30"
               />
             </a>
           )}

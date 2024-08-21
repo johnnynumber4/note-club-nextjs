@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-import normalizeEmail from 'validator/lib/normalizeEmail';
 
 // Function to find a user by email, typically used for registration or login
 export async function findUserByEmail(db, email) {

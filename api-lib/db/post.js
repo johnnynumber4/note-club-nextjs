@@ -1,12 +1,26 @@
 import { ObjectId } from 'mongodb';
 import { dbProjectionUsers } from './user';
 
+/**
+ * Finds a post by its ID.
+ * @param {Object} db - The database connection.
+ * @param {string} id - The ID of the post to find.
+ * @returns {Object|null} The found post or null if not found.
+ */
 export async function findPostById(db, id) {
   try {
+    // Validate ObjectId
+    if (!ObjectId.isValid(id)) {
+      throw new Error('Invalid post ID');
+    }
+
+    const objectId = new ObjectId(id);
+
+    // Aggregate to find the post and join with the users collection
     const posts = await db
       .collection('posts')
       .aggregate([
-        { $match: { _id: new ObjectId(id) } },
+        { $match: { _id: objectId } },
         { $limit: 1 },
         {
           $lookup: {
@@ -16,10 +30,11 @@ export async function findPostById(db, id) {
             as: 'creator',
           },
         },
-        { $unwind: '$creator' },
+        { $unwind: { path: '$creator', preserveNullAndEmptyArrays: true } },
         { $project: dbProjectionUsers('creator.') },
       ])
       .toArray();
+
     return posts[0] || null;
   } catch (error) {
     console.error('Error finding post by ID:', error);
@@ -63,7 +78,6 @@ export async function findPosts(db, before, by) {
     ];
 
     const result = await db.collection('posts').aggregate(query).toArray();
-    console.log('Posts Result:', result);
     return result;
   } catch (error) {
     console.error('Error finding posts:', error);
@@ -71,12 +85,8 @@ export async function findPosts(db, before, by) {
   }
 }
 
-export async function insertPost(db, postDetails) {
+export async function insertPost(db, post) {
   try {
-    const post = {
-      ...postDetails,
-      createdAt: new Date(),
-    };
     const { insertedId } = await db.collection('posts').insertOne(post);
     post._id = insertedId;
     return post;
@@ -99,9 +109,11 @@ export async function updatePost(db, { id, wikiDesc, yt, albumArt, theme }) {
         },
       }
     );
+
     if (result.matchedCount === 0) {
       throw new Error('Post not found');
     }
+
     return result.modifiedCount > 0;
   } catch (error) {
     console.error('Error updating post:', error);

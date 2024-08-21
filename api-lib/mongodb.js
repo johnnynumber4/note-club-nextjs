@@ -7,8 +7,6 @@ async function createIndexes(client) {
 
   const db = client.db();
   try {
-    console.log('Creating indexes...'); // Debugging output
-
     await Promise.all([
       db
         .collection('tokens')
@@ -26,7 +24,6 @@ async function createIndexes(client) {
     ]);
 
     indexesCreated = true;
-    console.log('Indexes created successfully'); // Debugging output
   } catch (error) {
     console.error('Error creating indexes:', error);
     throw error;
@@ -44,7 +41,6 @@ export async function getMongoClient() {
     global.mongoClientPromise = client
       .connect()
       .then((client) => {
-        console.log('MongoDB connected'); // Debugging output
         return createIndexes(client);
       })
       .catch((error) => {

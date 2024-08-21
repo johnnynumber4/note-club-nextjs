@@ -1,7 +1,6 @@
 import { Avatar } from '@/components/Avatar';
 import { ButtonLink } from '@/components/Button';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
-import { useCurrentUser } from '@/lib/user';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -15,7 +14,6 @@ import { usePostPages } from '@/lib/post';
 import { signOut, useSession } from 'next-auth/react';
 
 const Nav = () => {
-  const { data: user, mutate } = useCurrentUser();
   const { data: session } = useSession();
   const { data } = usePostPages();
   const posts = data ? data.flatMap((val) => val.posts) : [];
@@ -55,11 +53,10 @@ const Nav = () => {
     try {
       await signOut({ callbackUrl: '/' });
       toast.success('You have been signed out');
-      mutate({ user: null });
     } catch (e) {
       toast.error('Failed to sign out');
     }
-  }, [mutate]);
+  }, []);
 
   return (
     <nav className={styles.nav}>

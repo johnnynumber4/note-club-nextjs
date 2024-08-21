@@ -21,12 +21,9 @@ export default NextAuth({
       const db = await getMongoDb();
       const { email, name } = user;
       const username = slugUsername(name);
-
-      // Check if the user already exists
       const existingUser = await findUserByEmail(db, email);
 
       if (!existingUser) {
-        // Create a new user if it doesn't exist
         await insertUser(db, {
           email,
           name,
@@ -35,21 +32,20 @@ export default NextAuth({
         });
       }
 
-      // Return true to complete the sign-in process
       return true;
     },
     async session({ session, token }) {
-      // Attach the user ID to the session object
       if (token) {
         session.user.id = token.id;
+        session.user.username = token.username;
       }
       return session;
     },
     async jwt({ token, user }) {
-      // On sign-in, add user details to the JWT token
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.username = user.name;
       }
       return token;
     },

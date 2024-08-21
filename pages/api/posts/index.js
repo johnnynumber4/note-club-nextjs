@@ -1,7 +1,5 @@
-// pages/api/posts/index.js
 import nc from 'next-connect';
 import wiki from 'wikijs';
-import { getSession } from 'next-auth/react';
 
 import { ValidateProps } from '@/api-lib/constants';
 import { findPosts, insertPost } from '@/api-lib/db';
@@ -36,22 +34,21 @@ const postSchema = {
     yt: ValidateProps.post.yt,
     theme: ValidateProps.post.theme,
     albumArt: ValidateProps.post.albumArt,
+    username: { type: 'string' },
   },
-  required: ['albumTitle', 'albumArtist', 'yt', 'theme', 'albumArt'],
+  required: [
+    'albumTitle',
+    'albumArtist',
+    'yt',
+    'theme',
+    'albumArt',
+    'username',
+  ],
   additionalProperties: false,
 };
 
 handler.post(validateBody(postSchema), async (req, res) => {
-  // Fetch session to ensure the user is authenticated
-  const session = await getSession({ req });
-
-  if (!session || !session.user) {
-    return res.status(401).json({ error: 'You must be logged in to post' });
-  }
-
-  // Extract user information from session
-  const username = session.user.username;
-
+  const username = req.body.username;
   const { albumTitle, albumArtist, theme, yt, albumArt } = req.body;
 
   const postDetails = {

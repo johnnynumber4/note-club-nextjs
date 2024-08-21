@@ -12,7 +12,7 @@ handler.get(async (req, res) => {
   }
 
   try {
-    await api.initialize(); // Fixed method name from initalize to initialize
+    await api.initalize(); // Fixed method name from initalize to initialize
     const result = await api.search(`${albumArtist} ${albumTitle}`, 'album');
     res.json({ multipleResults: result.content });
   } catch (error) {

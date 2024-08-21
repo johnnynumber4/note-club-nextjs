@@ -4,13 +4,14 @@ import { LoadingDots } from '@/components/LoadingDots';
 import { Text, TextLink } from '@/components/Text';
 import { fetcher } from '@/lib/fetch';
 import { usePostPages } from '@/lib/post';
+import { useCurrentUser } from '@/lib/user';
 import Link from 'next/link';
+// import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
 import { Modal, Box, Grid, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useSession } from 'next-auth/react';
 
 const PosterInner = ({ user }) => {
   const albumTitleRef = useRef();
@@ -165,17 +166,16 @@ const PosterInner = ({ user }) => {
 };
 
 const Poster = () => {
-  const { data, error } = useSession();
-  const loading = !data && !error;
+  const { user, isLoading, isAuthenticated } = useCurrentUser();
 
   return (
     <Wrapper>
       <div className={styles.root}>
         <h3 className={styles.heading}>Post your album!</h3>
-        {loading ? (
+        {isLoading ? (
           <LoadingDots>Loading</LoadingDots>
-        ) : data?.user ? (
-          <PosterInner user={data.user} />
+        ) : isAuthenticated ? (
+          <PosterInner user={user} />
         ) : (
           <Text color="secondary">
             Please{' '}

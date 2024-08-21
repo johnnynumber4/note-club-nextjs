@@ -49,8 +49,6 @@ handler.post(
       // Fetch session to ensure the user is authenticated
       const session = await getSession({ req });
 
-      console.log('SESSION', session); // Debugging: Check the session details in the logs
-
       if (!session || !session.user) {
         return res
           .status(401)

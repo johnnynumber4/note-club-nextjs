@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useMemo } from 'react';
 import React from 'react';
 import {
-  Avatar,
   Card,
   CardActions,
   CardContent,
@@ -97,17 +96,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = ({ post, user }) => {
+const Post = ({ post }) => {
   const classes = useStyles();
 
-  const profilePic = user ? user.profilePicture : '/default-avatar.png'; // Default avatar
   const timestampTxt = useMemo(() => {
     const diff = Date.now() - new Date(post.createdAt).getTime();
     if (diff < 1 * 60 * 1000) return 'Just now';
     return `${format(diff, true)} ago`;
   }, [post.createdAt]);
-
-  console.log("post", post);
 
   return (
     <Box>
@@ -148,13 +144,6 @@ const Post = ({ post, user }) => {
           </Box>
         </Link>
         <CardActions classes={{ root: classes.cardRoot }}>
-          {/* {profilePic && (
-            <Avatar
-              className={classes.avatar}
-              src={profilePic}
-              alt={post.author}
-            />
-          )} */}
           <Link href={`/user/${post.author}`}>
             <Typography className={classes.subheading} variant={'caption'}>
               {post.author}

@@ -58,6 +58,7 @@ handler.post(validateBody(postSchema), async (req, res) => {
     yt,
     albumArt,
     author: username,
+    createdAt: new Date(),
   };
 
   try {

@@ -1,46 +1,66 @@
 import { MongoClient } from 'mongodb';
 
 let indexesCreated = false;
+
 async function createIndexes(client) {
   if (indexesCreated) return client;
+
   const db = client.db();
-  await Promise.all([
-    db
-      .collection('tokens')
-      .createIndex({ expireAt: -1 }, { expireAfterSeconds: 0 }),
-    db
-      .collection('posts')
-      .createIndexes([{ key: { createdAt: -1 } }, { key: { author: -1 } }]),
-    db
-      .collection('comments')
-      .createIndexes([{ key: { createdAt: -1 } }, { key: { postId: -1 } }]),
-    db.collection('users').createIndexes([
-      { key: { email: 1 }, unique: true },
-      { key: { username: 1 }, unique: true },
-    ]),
-  ]);
-  indexesCreated = true;
+  try {
+    console.log('Creating indexes...'); // Debugging output
+
+    await Promise.all([
+      db
+        .collection('tokens')
+        .createIndex({ expireAt: -1 }, { expireAfterSeconds: 0 }),
+      db
+        .collection('posts')
+        .createIndexes([{ key: { createdAt: -1 } }, { key: { author: -1 } }]),
+      db
+        .collection('comments')
+        .createIndexes([{ key: { createdAt: -1 } }, { key: { postId: -1 } }]),
+      db.collection('users').createIndexes([
+        { key: { email: 1 }, unique: true },
+        { key: { username: 1 }, unique: true },
+      ]),
+    ]);
+
+    indexesCreated = true;
+    console.log('Indexes created successfully'); // Debugging output
+  } catch (error) {
+    console.error('Error creating indexes:', error);
+    throw error;
+  }
   return client;
 }
 
 export async function getMongoClient() {
-  /**
-   * Global is used here to maintain a cached connection across hot reloads
-   * in development. This prevents connections growing exponentiatlly
-   * during API Route usage.
-   * https://github.com/vercel/next.js/pull/17666
-   */
   if (!global.mongoClientPromise) {
-    const client = new MongoClient(process.env.MONGODB_URI);
-    // client.connect() returns an instance of MongoClient when resolved
+    const client = new MongoClient(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
     global.mongoClientPromise = client
       .connect()
-      .then((client) => createIndexes(client));
+      .then((client) => {
+        console.log('MongoDB connected'); // Debugging output
+        return createIndexes(client);
+      })
+      .catch((error) => {
+        console.error('Error connecting to MongoDB:', error);
+        throw error;
+      });
   }
   return global.mongoClientPromise;
 }
 
 export async function getMongoDb() {
-  const mongoClient = await getMongoClient();
-  return mongoClient.db();
+  try {
+    const mongoClient = await getMongoClient();
+    return mongoClient.db();
+  } catch (error) {
+    console.error('Error getting MongoDB database:', error);
+    throw error;
+  }
 }

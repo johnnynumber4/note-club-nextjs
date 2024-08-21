@@ -1,15 +1,13 @@
-import { ValidateProps } from '@/api-lib/constants';
 import { findUserByUsername, updateUserById } from '@/api-lib/db';
-import { auths, validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
-import { ncOpts } from '@/api-lib/nc';
 import { slugUsername } from '@/lib/user';
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer';
 import nc from 'next-connect';
+import { getSession } from 'next-auth/react'; // Import NextAuth session handler
 
 const upload = multer({ dest: '/tmp' });
-const handler = nc(ncOpts);
+const handler = nc();
 
 if (process.env.CLOUDINARY_URL) {
   const {
@@ -25,68 +23,67 @@ if (process.env.CLOUDINARY_URL) {
   });
 }
 
-handler.use(...auths);
+// Use NextAuth session to authenticate users
+handler.use(async (req, res, next) => {
+  const session = await getSession({ req });
+  if (!session || !session.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  req.user = session.user;
+  next();
+});
 
 handler.get(async (req, res) => {
-  if (!req.user) return res.json({ user: null });
+  if (!req.user) return res.status(401).json({ error: 'Unauthorized' });
   return res.json({ user: req.user });
 });
 
-handler.patch(
-  upload.single('profilePicture'),
-  validateBody({
-    type: 'object',
-    properties: {
-      username: ValidateProps.user.username,
-      name: ValidateProps.user.name,
-      bio: ValidateProps.user.bio,
-    },
-    additionalProperties: true,
-  }),
-  async (req, res) => {
-    if (!req.user) {
-      req.status(401).end();
-      return;
-    }
+handler.patch(upload.single('profilePicture'), async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
-    const db = await getMongoDb();
+  const db = await getMongoDb();
 
-    let profilePicture;
-    if (req.file) {
+  let profilePicture;
+  if (req.file) {
+    try {
       const image = await cloudinary.uploader.upload(req.file.path, {
         width: 512,
         height: 512,
         crop: 'fill',
       });
       profilePicture = image.secure_url;
+    } catch (error) {
+      return res.status(500).json({ error: 'Failed to upload image' });
     }
-    const { name, bio } = req.body;
-
-    let username;
-
-    if (req.body.username) {
-      username = slugUsername(req.body.username);
-      if (
-        username !== req.user.username &&
-        (await findUserByUsername(db, username))
-      ) {
-        res
-          .status(403)
-          .json({ error: { message: 'The username has already been taken.' } });
-        return;
-      }
-    }
-
-    const user = await updateUserById(db, req.user._id, {
-      ...(username && { username }),
-      ...(name && { name }),
-      ...(typeof bio === 'string' && { bio }),
-      ...(profilePicture && { profilePicture }),
-    });
-
-    res.json({ user });
   }
-);
+
+  const { name, bio, username } = req.body;
+
+  // Check for unique username if provided
+  let newUsername;
+  if (username) {
+    newUsername = slugUsername(username);
+    if (
+      newUsername !== req.user.username &&
+      (await findUserByUsername(db, newUsername))
+    ) {
+      return res
+        .status(403)
+        .json({ error: 'The username has already been taken.' });
+    }
+  }
+
+  const user = await updateUserById(db, req.user.id, {
+    ...(newUsername && { username: newUsername }),
+    ...(name && { name }),
+    ...(typeof bio === 'string' && { bio }),
+    ...(profilePicture && { profilePicture }),
+  });
+
+  res.json({ user });
+});
 
 export const config = {
   api: {

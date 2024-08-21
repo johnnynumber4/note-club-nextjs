@@ -12,23 +12,31 @@ const Comment = ({ comment, className }) => {
     if (diff < 1 * 60 * 1000) return 'Just now';
     return `${format(diff, true)} ago`;
   }, [comment.createdAt]);
+
+  // Default values for cases where data might be missing
+  const { username, profilePicture, name } = comment.creator || {};
+  const avatarUrl = profilePicture || '/default-avatar.png'; // Default avatar if none provided
+
   return (
     <div className={clsx(styles.root, className)}>
-      <Link href={`/user/${comment.creator.username}`}>
+      <Link href={`/user/${username || 'default'}`}>
         <Container className={styles.creator}>
           <Avatar
             size={36}
-            url={comment.creator.profilePicture}
-            username={comment.creator.username}
+            url={avatarUrl}
+            username={username}
+            alt={username ? `${username}'s avatar` : 'User avatar'}
           />
           <Container column className={styles.meta}>
-            <p className={styles.name}>{comment.creator.name}</p>
-            <p className={styles.username}>{comment.creator.username}</p>
+            <p className={styles.name}>{name || 'Anonymous'}</p>
+            <p className={styles.username}>{username || 'unknown'}</p>
           </Container>
         </Container>
       </Link>
       <div className={styles.wrap}>
-        <p className={styles.content}>{comment.content}</p>
+        <p className={styles.content}>
+          {comment.content || 'No content available'}
+        </p>
       </div>
       <div className={styles.wrap}>
         <time dateTime={String(comment.createdAt)} className={styles.timestamp}>

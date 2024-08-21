@@ -2,11 +2,20 @@ import { findPostById } from '@/api-lib/db';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { UserPost } from '@/page-components/UserPost';
 import Head from 'next/head';
+import { useSession } from 'next-auth/react'; // Import useSession
 
 export default function UserPostPage({ post }) {
+  const { data: session } = useSession(); // Get the session data
+
+  // Convert the post's createdAt field to a Date object if it's not a string
   if (typeof post.createdAt !== 'string') {
     post.createdAt = new Date(post.createdAt);
   }
+
+  // Ensure the post creator is the authenticated user
+  const isAuthor = session?.user?.name === post.creator.username;
+  console.log('isAuthor:', isAuthor);
+
   return (
     <>
       <Head>
@@ -14,7 +23,7 @@ export default function UserPostPage({ post }) {
           {post.creator.name} ({post.creator.username}): {post.albumTitle}
         </title>
       </Head>
-      <UserPost post={post} />
+      <UserPost post={post} isAuthor={isAuthor} />
     </>
   );
 }
@@ -29,9 +38,8 @@ export async function getServerSideProps(context) {
     };
   }
 
+  // Ensure the post's creator username matches the URL params
   if (context.params.username !== post.creator.username) {
-    // mismatch params in url, redirect to correct one
-    // eg. post x belongs to user a, but url is /user/b/post/x
     return {
       redirect: {
         destination: `/user/${post.creator.username}/post/${post._id}`,
@@ -39,9 +47,12 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
+  // Convert ObjectIDs and Dates to strings for easier handling in the client
   post._id = String(post._id);
   post.author = String(post.author);
   post.creator._id = String(post.creator._id);
   post.createdAt = post.createdAt.toJSON();
+
   return { props: { post } };
 }

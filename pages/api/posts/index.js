@@ -1,9 +1,11 @@
+// pages/api/posts/index.js
 import nc from 'next-connect';
 import wiki from 'wikijs';
+import { getSession } from 'next-auth/react';
 
 import { ValidateProps } from '@/api-lib/constants';
 import { findPosts, insertPost } from '@/api-lib/db';
-import { auths, validateBody } from '@/api-lib/middlewares';
+import { validateBody } from '@/api-lib/middlewares';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { ncOpts } from '@/api-lib/nc';
 import { searchSpotifyAlbum } from '@/api-lib/spotify';
@@ -39,14 +41,27 @@ const postSchema = {
   additionalProperties: false,
 };
 
-handler.post(...auths, validateBody(postSchema), async (req, res) => {
-  if (!req.user) {
-    return res.status(401).end();
+handler.post(validateBody(postSchema), async (req, res) => {
+  // Fetch session to ensure the user is authenticated
+  const session = await getSession({ req });
+
+  if (!session || !session.user) {
+    return res.status(401).json({ error: 'You must be logged in to post' });
   }
+
+  // Extract user information from session
+  const username = session.user.username;
 
   const { albumTitle, albumArtist, theme, yt, albumArt } = req.body;
 
-  const postDetails = { albumTitle, albumArtist, theme, yt, albumArt };
+  const postDetails = {
+    albumTitle,
+    albumArtist,
+    theme,
+    yt,
+    albumArt,
+    author: username,
+  };
 
   try {
     const spotify = await searchSpotifyAlbum(albumArtist, albumTitle);
@@ -63,10 +78,7 @@ handler.post(...auths, validateBody(postSchema), async (req, res) => {
 
   try {
     const db = await getMongoDb();
-    const post = await insertPost(db, {
-      ...postDetails,
-      author: req.user._id,
-    });
+    const post = await insertPost(db, postDetails);
     res.json({ post });
   } catch (error) {
     console.error('Error inserting post:', error);

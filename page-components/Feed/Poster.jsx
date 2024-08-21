@@ -4,15 +4,15 @@ import { LoadingDots } from '@/components/LoadingDots';
 import { Text, TextLink } from '@/components/Text';
 import { fetcher } from '@/lib/fetch';
 import { usePostPages } from '@/lib/post';
-import { useCurrentUser } from '@/lib/user';
 import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './Poster.module.css';
-import { Modal, Box, Grid, Button, FormControl } from '@mui/material';
+import { Modal, Box, Grid, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { useSession } from 'next-auth/react';
 
-const PosterInner = () => {
+const PosterInner = ({ user }) => {
   const albumTitleRef = useRef();
   const albumArtistRef = useRef();
   const themeRef = useRef();
@@ -27,57 +27,64 @@ const PosterInner = () => {
     setIsExpanded((prev) => !prev);
   };
 
-  const onSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    if (isLoading) return; // Prevent multiple submissions
+  const onSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (isLoading) return; // Prevent multiple submissions
 
-    try {
-      setIsLoading(true);
-      const response = await fetcher(
-        `/api/search/yt?albumArtist=${albumArtistRef.current.value}&albumTitle=${albumTitleRef.current.value}`
-      );
-      if (response.multipleResults) {
-        setMultipleResults(response.multipleResults);
-        setShowModal(true);
-      } else {
-        toast.error('No albums found');
+      try {
+        setIsLoading(true);
+        const response = await fetcher(
+          `/api/search/yt?albumArtist=${albumArtistRef.current.value}&albumTitle=${albumTitleRef.current.value}`
+        );
+        if (response.multipleResults) {
+          setMultipleResults(response.multipleResults);
+          setShowModal(true);
+        } else {
+          toast.error('No albums found');
+        }
+      } catch (e) {
+        toast.error(e.message);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (e) {
-      toast.error(e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [isLoading]);
+    },
+    [isLoading]
+  );
 
-  const handleSelection = useCallback(async (selectedResult) => {
-    if (isLoading) return; // Prevent multiple selections
-    try {
-      setIsLoading(true);
+  const handleSelection = useCallback(
+    async (selectedResult) => {
+      if (isLoading) return; // Prevent multiple selections
+      try {
+        setIsLoading(true);
 
-      const postDetails = {
-        albumTitle: selectedResult.name,
-        albumArtist: selectedResult.artist,
-        theme: themeRef.current.value,
-        yt: selectedResult.playlistId,
-        albumArt: selectedResult.thumbnails[3].url,
-      };
+        const postDetails = {
+          albumTitle: selectedResult.name,
+          albumArtist: selectedResult.artist,
+          theme: themeRef.current.value,
+          yt: selectedResult.playlistId,
+          albumArt: selectedResult.thumbnails[3].url,
+          username: user.username, // Include the username from the user object
+        };
 
-      // Post to the database
-      await fetcher('/api/posts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postDetails),
-      });
+        // Post to the database
+        await fetcher('/api/posts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(postDetails),
+        });
 
-      toast.success('You have posted successfully');
-      setShowModal(false);
-      mutate();
-    } catch (e) {
-      toast.error(e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [isLoading, mutate]);
+        toast.success('You have posted successfully');
+        setShowModal(false);
+        mutate();
+      } catch (e) {
+        toast.error(e.message);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [isLoading, mutate, user.username]
+  );
 
   return (
     <form onSubmit={onSubmit}>
@@ -141,7 +148,11 @@ const PosterInner = () => {
                 </Grid>
               </Grid>
               <Box textAlign="center">
-                <LoadingButton type="submit" loading={isLoading} disabled={isLoading}>
+                <LoadingButton
+                  type="submit"
+                  loading={isLoading}
+                  disabled={isLoading}
+                >
                   Post
                 </LoadingButton>
               </Box>
@@ -154,7 +165,7 @@ const PosterInner = () => {
 };
 
 const Poster = () => {
-  const { data, error } = useCurrentUser();
+  const { data, error } = useSession();
   const loading = !data && !error;
 
   return (

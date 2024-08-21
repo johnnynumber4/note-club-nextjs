@@ -12,11 +12,14 @@ handler.get(async (req, res) => {
   }
 
   try {
-    await api.initalize();
+    await api.initialize(); // Fixed method name from initalize to initialize
     const result = await api.search(`${albumArtist} ${albumTitle}`, 'album');
     res.json({ multipleResults: result.content });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to search YouTube' });
+    console.error('Error searching YouTube:', error); // Log error details for debugging
+    res
+      .status(500)
+      .json({ error: 'Failed to search YouTube', details: error.message });
   }
 });
 

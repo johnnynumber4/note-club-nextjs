@@ -33,9 +33,16 @@
   white-space: nowrap;
   margin: 20px auto;
 }
+@media (max-width: 800px) {
+  .linkContainer {
+    display: inline-grid;
+  }
+}
 
-.linkContainer {
-  display: inline-block;
+@media (min-width: 801px) {
+  .linkContainer {
+    display: inline-block;
+  }
 }
 
 .link {

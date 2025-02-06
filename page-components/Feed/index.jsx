@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Spacer, Container, Wrapper } from '@/components/Layout';
+import { Spacer, Container } from '@/components/Layout';
 import Poster from './Poster';
 import PostList from './PostList';
 import FeaturedList from './FeaturedList';
@@ -32,37 +32,37 @@ export const Feed = () => {
       <Spacer size={1} axis="vertical" />
       <Poster />
       <Spacer size={1} axis="vertical" />
-      <Wrapper>
-        <div className={styles.root}>
-          <Container className={styles.poster}>
-            <nav className={styles.navContainer}>
-              <div className={styles.linkContainer}>
-                <Link href="#">
-                  <a
-                    className={styles.link}
-                    onClick={() => handleViewChange('featured')}
-                  >
-                    Now Playing
-                  </a>
-                </Link>
-                <Link href="#">
-                  <a
-                    className={styles.link}
-                    onClick={() => handleViewChange('archives')}
-                  >
-                    The Archives
-                  </a>
-                </Link>
-                <Link href="#">
-                  <a className={styles.link} onClick={handleFeelingLucky}>
-                    I'm Feeling Lucky
-                  </a>
-                </Link>
-              </div>
-            </nav>
-          </Container>
-        </div>
-      </Wrapper>
+      {/* <Wrapper> */}
+      <div>
+        <Container>
+          <nav className={styles.navContainer}>
+            <div className={styles.linkContainer}>
+              <Link href="#">
+                <a
+                  className={styles.link}
+                  onClick={() => handleViewChange('featured')}
+                >
+                  Now Playing
+                </a>
+              </Link>
+              <Link href="#">
+                <a
+                  className={styles.link}
+                  onClick={() => handleViewChange('archives')}
+                >
+                  The Archives
+                </a>
+              </Link>
+              <Link href="#">
+                <a className={styles.link} onClick={handleFeelingLucky}>
+                  I&apos;m Feeling Lucky
+                </a>
+              </Link>
+            </div>
+          </nav>
+        </Container>
+      </div>
+      {/* </Wrapper> */}
       <Spacer size={1} axis="vertical" />
       {activeView === 'featured' && <FeaturedList />}
       {activeView === 'archives' && <PostList />}

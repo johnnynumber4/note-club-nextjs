@@ -29,8 +29,9 @@
 }
 
 .navContainer {
-  overflow-x: auto;
+  /* overflow-x: auto; */
   white-space: nowrap;
+  margin: 20px auto;
 }
 
 .linkContainer {

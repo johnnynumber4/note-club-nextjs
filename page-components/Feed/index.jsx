@@ -23,7 +23,7 @@ export const Feed = () => {
   const handleFeelingLucky = () => {
     const randomIndex = Math.floor(Math.random() * posts.length);
     const randomPost = posts[randomIndex];
-    const url = `/user/${randomPost.creator.username}/post/${randomPost._id}`;
+    const url = `/user/${randomPost.author}/post/${randomPost._id}`;
     Router.push(url);
   };
 

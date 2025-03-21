@@ -1,8 +1,6 @@
 import { Avatar } from '@/components/Avatar';
 import { ButtonLink } from '@/components/Button';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
-import { fetcher } from '@/lib/fetch';
-import { useCurrentUser } from '@/lib/user';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -13,26 +11,33 @@ import Spacer from './Spacer';
 import Wrapper from './Wrapper';
 import { Search } from '@/components/Search';
 import { usePostPages } from '@/lib/post';
+import { signOut, useSession } from 'next-auth/react';
 
-const UserMenu = ({ user, mutate }) => {
-  const menuRef = useRef();
-  const avatarRef = useRef();
+const Nav = () => {
+  const { data: session } = useSession();
+  const { data } = usePostPages();
+  const posts = data ? data.flatMap((val) => val.posts) : [];
 
   const [visible, setVisible] = useState(false);
-
+  const menuRef = useRef();
+  const avatarRef = useRef();
   const router = useRouter();
+
+  // Close the menu when the route changes
   useEffect(() => {
     const onRouteChangeComplete = () => setVisible(false);
     router.events.on('routeChangeComplete', onRouteChangeComplete);
     return () =>
       router.events.off('routeChangeComplete', onRouteChangeComplete);
-  });
+  }, [router.events]);
 
+  // Close the menu when clicking outside of it
   useEffect(() => {
-    // detect outside click to close menu
     const onMouseDown = (event) => {
       if (
+        menuRef.current &&
         !menuRef.current.contains(event.target) &&
+        avatarRef.current &&
         !avatarRef.current.contains(event.target)
       ) {
         setVisible(false);
@@ -44,65 +49,14 @@ const UserMenu = ({ user, mutate }) => {
     };
   }, []);
 
-  const onSignOut = useCallback(async () => {
+  const handleSignOut = useCallback(async () => {
     try {
-      await fetcher('/api/auth', {
-        method: 'DELETE',
-      });
+      await signOut({ callbackUrl: '/' });
       toast.success('You have been signed out');
-      mutate({ user: null });
     } catch (e) {
-      toast.error(e.message);
+      toast.error('Failed to sign out');
     }
-  }, [mutate]);
-
-  return (
-    <div className={styles.user}>
-      <button
-        className={styles.trigger}
-        ref={avatarRef}
-        onClick={() => setVisible(!visible)}
-      >
-        <Avatar size={32} username={user.username} url={user.profilePicture} />
-      </button>
-      <div
-        ref={menuRef}
-        role="menu"
-        aria-hidden={visible}
-        className={styles.popover}
-      >
-        {visible && (
-          <div className={styles.menu}>
-            <Link passHref href={`/user/${user.username}`} legacyBehavior>
-              <a className={styles.item}>Profile</a>
-            </Link>
-            <Link passHref href="/settings" legacyBehavior>
-              <a className={styles.item}>Settings</a>
-            </Link>
-            <div className={styles.item} style={{ cursor: 'auto' }}>
-              <Container alignItems="center">
-                <span>Theme</span>
-                <Spacer size={0.5} axis="horizontal" />
-                <ThemeSwitcher />
-              </Container>
-            </div>
-            <button onClick={onSignOut} className={styles.item}>
-              Sign out
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-const Nav = () => {
-  const { data: { user } = {}, mutate } = useCurrentUser();
-
-  const { data } = usePostPages();
-  const posts = data
-    ? data.reduce((acc, val) => [...acc, ...val.posts], [])
-    : [];
+  }, []);
 
   return (
     <nav className={styles.nav}>
@@ -113,14 +67,55 @@ const Nav = () => {
           justifyContent="space-between"
         >
           <Link href="/" legacyBehavior>
-            <a className={styles.logo}>Note Club</a>
+            <a className={styles.logo}>SN Music Club</a>
           </Link>
           <Search posts={posts} />
           <Container>
-            {user ? (
-              <>
-                <UserMenu user={user} mutate={mutate} />
-              </>
+            {session ? (
+              <div className={styles.user}>
+                <button
+                  className={styles.trigger}
+                  ref={avatarRef}
+                  onClick={() => setVisible(!visible)}
+                >
+                  <Avatar
+                    size={32}
+                    username={session?.user?.name}
+                    url={session?.user?.image}
+                  />
+                </button>
+                {visible && (
+                  <div
+                    ref={menuRef}
+                    role="menu"
+                    aria-hidden={!visible}
+                    className={styles.popover}
+                  >
+                    <div className={styles.menu}>
+                      <Link
+                        passHref
+                        href={`/user/${session?.user?.name}`}
+                        legacyBehavior
+                      >
+                        <a className={styles.item}>Profile</a>
+                      </Link>
+                      <Link passHref href="/settings" legacyBehavior>
+                        <a className={styles.item}>Settings</a>
+                      </Link>
+                      <div className={styles.item} style={{ cursor: 'auto' }}>
+                        <Container alignItems="center">
+                          <span>Theme</span>
+                          <Spacer size={0.5} axis="horizontal" />
+                          <ThemeSwitcher />
+                        </Container>
+                      </div>
+                      <button onClick={handleSignOut} className={styles.item}>
+                        Sign out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
               <>
                 <Link passHref href="/login">
@@ -134,11 +129,6 @@ const Nav = () => {
                   </ButtonLink>
                 </Link>
                 <Spacer axis="horizontal" size={0.25} />
-                {/* <Link passHref href="/sign-up">
-                  <Button size="small" type="success">
-                    Sign Up
-                  </Button>
-                </Link> */}
               </>
             )}
           </Container>

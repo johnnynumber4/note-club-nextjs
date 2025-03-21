@@ -2,46 +2,43 @@ import { findPostById } from '@/api-lib/db';
 import { getMongoDb } from '@/api-lib/mongodb';
 import { UserPost } from '@/page-components/UserPost';
 import Head from 'next/head';
-
-export default function UserPostPage({ post }) {
-  if (typeof post.createdAt !== 'string') {
-    post.createdAt = new Date(post.createdAt);
-  }
-  return (
-    <>
-      <Head>
-        <title>
-          {post.creator.name} ({post.creator.username}): {post.albumTitle}
-        </title>
-      </Head>
-      <UserPost post={post} />
-    </>
-  );
-}
+import { useSession } from 'next-auth/react';
 
 export async function getServerSideProps(context) {
+  const { postId } = context.params;
   const db = await getMongoDb();
+  const post = await findPostById(db, postId);
 
-  const post = await findPostById(db, context.params.postId);
   if (!post) {
     return {
       notFound: true,
     };
   }
 
-  if (context.params.username !== post.creator.username) {
-    // mismatch params in url, redirect to correct one
-    // eg. post x belongs to user a, but url is /user/b/post/x
-    return {
-      redirect: {
-        destination: `/user/${post.creator.username}/post/${post._id}`,
-        permanent: false,
-      },
-    };
+  return {
+    props: {
+      post: JSON.parse(JSON.stringify(post)), // Ensure dates are serialized
+    },
+  };
+}
+
+export default function UserPostPage({ post }) {
+  const { data: session } = useSession();
+
+  if (typeof post.createdAt !== 'string') {
+    post.createdAt = new Date(post.createdAt);
   }
-  post._id = String(post._id);
-  post.author = String(post.author);
-  post.creator._id = String(post.creator._id);
-  post.createdAt = post.createdAt.toJSON();
-  return { props: { post } };
+
+  const isAuthor = session?.user?.name === post.author;
+
+  return (
+    <>
+      <Head>
+        <title>
+          {post.author} ({post.author}): {post.albumTitle}
+        </title>
+      </Head>
+      <UserPost post={post} isAuthor={isAuthor} />
+    </>
+  );
 }

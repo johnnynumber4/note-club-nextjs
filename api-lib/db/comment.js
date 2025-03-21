@@ -1,40 +1,39 @@
 import { ObjectId } from 'mongodb';
-import { dbProjectionUsers } from '.';
+// import { dbProjectionUsers } from '.';
 
 export async function findComments(db, postId, before, limit = 10) {
-  return db
-    .collection('comments')
-    .aggregate([
-      {
-        $match: {
-          postId: new ObjectId(postId),
-          ...(before && { createdAt: { $lt: before } }),
-        },
-      },
+  try {
+    const match = {
+      postId: new ObjectId(postId),
+      ...(before && { createdAt: { $lt: before } }),
+    };
+
+    const pipeline = [
+      { $match: match },
       { $sort: { _id: -1 } },
       { $limit: limit },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'author',
-          foreignField: '_id',
-          as: 'creator',
-        },
-      },
-      { $unwind: '$creator' },
-      { $project: dbProjectionUsers('creator.') },
-    ])
-    .toArray();
+    ];
+
+    return await db.collection('comments').aggregate(pipeline).toArray();
+  } catch (error) {
+    console.error('Error finding comments:', error);
+    throw new Error('Failed to find comments');
+  }
 }
 
 export async function insertComment(db, postId, { content, author }) {
-  const comment = {
-    content,
-    postId: new ObjectId(postId),
-    author,
-    createdAt: new Date(),
-  };
-  const { insertedId } = await db.collection('comments').insertOne(comment);
-  comment._id = insertedId;
-  return comment;
+  try {
+    const comment = {
+      content,
+      postId: new ObjectId(postId),
+      author, // Ensure this is the correct Discord user ID or identifier
+      createdAt: new Date(),
+    };
+    const { insertedId } = await db.collection('comments').insertOne(comment);
+    comment._id = insertedId;
+    return comment;
+  } catch (error) {
+    console.error('Error inserting comment:', error);
+    throw new Error('Failed to insert comment');
+  }
 }

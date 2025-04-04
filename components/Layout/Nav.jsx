@@ -115,7 +115,7 @@ const Nav = () => {
           <Link href="/" legacyBehavior>
             <a className={styles.logo}>Note Club</a>
           </Link>
-          <Search posts={posts} />
+          {user && <Search posts={posts} />}
           <Container>
             {user ? (
               <>

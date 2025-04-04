@@ -1,0 +1,11 @@
+.blockContainer {
+  display: block;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  box-shadow: var(--shadow-small);
+  text-align: center;
+}

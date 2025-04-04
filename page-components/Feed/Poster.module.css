@@ -29,10 +29,10 @@
 }
 
 .navContainer {
-  /* overflow-x: auto; */
-  white-space: nowrap;
   margin: 20px auto;
+  text-align: center;
 }
+
 @media (max-width: 800px) {
   .linkContainer {
     display: inline-grid;
@@ -46,13 +46,16 @@
 }
 
 .link {
-  margin: 0 8px;
+  margin: 0;
   color: var(--accents-7);
   text-decoration: none;
   border: 1px solid var(--accents-7);
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
+  text-align: center; /* Center text inside the link */
+  width: 100%; /* Make links take full width */
+  max-width: 300px; /* Limit the width for better appearance */
 }
 
 .link:hover {
@@ -130,4 +133,207 @@
 .additionalContent {
   margin-top: 1em;
   transition: max-height 0.3s ease-in-out;
+}
+
+.welcomePage {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  overflow: hidden;
+  padding: 20px;
+}
+
+.backgroundAnimation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+  animation: pulse 6s infinite;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.welcomeTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  z-index: 1;
+  margin-bottom: 1rem;
+}
+
+.brandName {
+  color: #ff7f50;
+  font-style: italic;
+}
+
+.welcomeSubtitle {
+  font-size: 1.25rem;
+  margin: 1rem 0;
+  z-index: 1;
+  line-height: 1.5;
+}
+
+.loginButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #ff7f50;
+  border-radius: 5px;
+  text-decoration: none;
+  z-index: 1;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.loginButton:hover {
+  background-color: #ff6347;
+  transform: scale(1.05);
+}
+
+.linkContainer {
+  display: block;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 800px) {
+  .linkContainer {
+    flex-direction: column; /* Stack links vertically */
+    align-items: center; /* Center align the links */
+    gap: 15px; /* Add more spacing between links */
+  }
+}
+
+.activeLink {
+  background-color: var(--accents-7);
+  color: var(--background);
+}
+
+@media (max-width: 600px) {
+  .welcomeTitle {
+    font-size: 2rem;
+    text-align: center; /* Center align the title */
+  }
+
+  .welcomeSubtitle {
+    font-size: 1rem;
+    text-align: center; /* Center align the subtitle */
+  }
+
+  .loginButton {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    width: 100%; /* Make the button take full width */
+    max-width: 300px; /* Limit the width for better appearance */
+    text-align: center; /* Center align the button text */
+  }
+
+  .link {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+.searchBar {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid var(--accents-7);
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.backgroundTiles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  grid-template-rows: repeat(auto-fill, 50px);
+  overflow: hidden;
+  z-index: -1;
+  animation: scrollTiles 20s linear infinite;
+}
+
+.tile {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.1);
+  animation: blinkTile 3s infinite alternate;
+}
+
+@keyframes scrollTiles {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes blinkTile {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.backgroundTiles::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: blinkTiles 3s infinite alternate;
+}
+
+@keyframes scrollTiles {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes blinkTiles {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }

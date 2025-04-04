@@ -9,6 +9,12 @@ import { usePostPages } from '@/lib/post';
 import Router from 'next/router';
 import { useCurrentUser } from '@/lib/user/hooks';
 import styles from './Poster.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCompactDisc,
+  faBook,
+  faClover,
+} from '@fortawesome/free-solid-svg-icons';
 
 export const Feed = () => {
   const { data: user } = useCurrentUser();
@@ -81,7 +87,8 @@ export const Feed = () => {
                   }`}
                   onClick={() => handleViewChange('featured')}
                 >
-                  Now Playing
+                  <FontAwesomeIcon icon={faCompactDisc} />{' '}
+                  {/* CD/Record Icon */}
                 </a>
               </Link>
               <Link href="#">
@@ -91,12 +98,12 @@ export const Feed = () => {
                   }`}
                   onClick={() => handleViewChange('archives')}
                 >
-                  The Archives
+                  <FontAwesomeIcon icon={faBook} /> {/* Books Icon */}
                 </a>
               </Link>
               <Link href="#">
                 <a className={styles.link} onClick={handleFeelingLucky}>
-                  I&apos;m Feeling Lucky
+                  <FontAwesomeIcon icon={faClover} /> {/* Shamrock Icon */}
                 </a>
               </Link>
             </div>
